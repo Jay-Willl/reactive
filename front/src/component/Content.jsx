@@ -1,43 +1,50 @@
 import {useState, useLayoutEffect, useRef, useEffect, useMemo, useCallback} from "react";
 import {useSelector, useDispatch} from "react-redux";
 
-function Content() {
+import {Icicle} from "../plot/Icicle.jsx";
+
+function Content({stackData, listData}) {
     const hoverEvent = useSelector(state => state.hover);
     const dispatch = useDispatch();
 
     const divRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
 
-    const siderLayout = {
-        // paddingLeft: dimension.width * 0.1 / 2
-        // paddingTop: 1
-        x: dimension.width * 0.05 / 2 + 5,
-        y: 20,
-        width: dimension.width * 0.95,
-        height: dimension.height - 30,
-        offsetX: 5,
-        offsetY: 5
-    }
+    const contentLayout = useMemo(() => {
+        return {
+            // paddingLeft: dimension.width * 0.1 / 2
+            // paddingTop: 1
+            x: dimension.width * 0.05 / 2 + 5,
+                y: 20,
+            width: dimension.width * 0.95,
+            height: dimension.height - 30,
+            offsetX: 5,
+            offsetY: 5
+        }
+    }, [dimension]);
 
-    const siderBackgroundLayout = {
-        left: siderLayout.x + siderLayout.offsetX,
-        top: siderLayout.y - siderLayout.offsetY,
-        width: siderLayout.width + 4,
-        height: siderLayout.height
-    }
+    const contentBackgroundLayout = useMemo(() => {
+        return {
+            left: contentLayout.x + contentLayout.offsetX,
+            top: contentLayout.y - contentLayout.offsetY,
+            width: contentLayout.width + 4,
+            height: contentLayout.height
+        }
+    }, [dimension]);
 
-    const siderComponentLayout = {
-        left: siderLayout.x - siderLayout.offsetX,
-        top: siderLayout.y + siderLayout.offsetY,
-        width: siderLayout.width,
-        height: siderLayout.height
-    }
+    const contentComponentLayout = useMemo(() => {
+        return {
+            left: contentLayout.x - contentLayout.offsetX,
+            top: contentLayout.y + contentLayout.offsetY,
+            width: contentLayout.width,
+            height: contentLayout.height
+        }
+    }, [dimension]);
 
-    console.log(siderLayout);
-    console.log(siderBackgroundLayout);
-    console.log(siderComponentLayout);
+    // console.log(contentComponentLayout);
 
     useLayoutEffect(() => {
+        // console.log("content layout effect");
         if (divRef.current) {
             const style = window.getComputedStyle(divRef.current);
             setDimension({
@@ -49,7 +56,7 @@ function Content() {
 
     return (
         <div
-            id="sider"
+            id="content"
             ref={divRef}
             style={{
                 width: '100%',
@@ -57,25 +64,24 @@ function Content() {
             }}
         >
             <div
-                className="sider-background"
+                className="content-background"
                 style={{
-                    ...siderBackgroundLayout,
+                    ...contentBackgroundLayout,
                     position: "absolute",
                     backgroundColor: "#000",
-
                 }}
             >
             </div>
             <div
-                className="sider-component"
+                className="content-component"
                 style={{
-                    ...siderComponentLayout,
+                    ...contentComponentLayout,
                     position: "absolute",
                     border: "2px solid #999",
                     backgroundColor: "#FFF",
                 }}
             >
-
+                <Icicle data={listData} layout={contentComponentLayout}/>
             </div>
         </div>
     )

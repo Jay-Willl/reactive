@@ -3,8 +3,9 @@ import {createSlice, configureStore} from "@reduxjs/toolkit";
 const rawRangeStore = createSlice({
     name: 'range',
     initialState: {
-        start: 5,
-        end: 10
+        start: 0,
+        end: 100,
+        scale: 1
     },
     reducers: {
         editStart (state, action) {
@@ -12,11 +13,14 @@ const rawRangeStore = createSlice({
         },
         editEnd (state, action) {
             state.end = action.payload;
+        },
+        editScale (state, action) {
+            state.scale = action.payload;
         }
     }
 });
 
-const {editStart, editEnd} = rawRangeStore.actions;
+const {editStart, editEnd, editScale} = rawRangeStore.actions;
 const rangeReducer = rawRangeStore.reducer;
 const rangeStore = configureStore({
     reducer: {
@@ -24,5 +28,5 @@ const rangeStore = configureStore({
     }
 });
 
-export {editStart, editEnd};
+export {editStart, editEnd, editScale};
 export {rangeStore, rangeReducer};

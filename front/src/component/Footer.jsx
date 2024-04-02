@@ -1,0 +1,6 @@
+
+function Footer() {
+
+}
+
+export {Footer};

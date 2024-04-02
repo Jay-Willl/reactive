@@ -9,6 +9,7 @@ function Sider() {
     const [dimension, setDimension] = useState({width: 0, height: 0});
 
     const siderLayout = {
+        // padding + 2 * offset + width = dimension.width
         // paddingLeft: dimension.width * 0.1 / 2
         // paddingTop: 1
         x: dimension.width * 0.12 / 2 + 5,
@@ -33,9 +34,9 @@ function Sider() {
         height: siderLayout.height
     }
 
-    console.log(siderLayout);
-    console.log(siderBackgroundLayout);
-    console.log(siderComponentLayout);
+    // console.log(siderLayout);
+    // console.log(siderBackgroundLayout);
+    // console.log(siderComponentLayout);
 
     useLayoutEffect(() => {
         if (divRef.current) {

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+
+<!--    <style>-->
+<!--        #test {-->
+<!--            width: 200px;-->
+<!--            height: 300px;-->
+<!--            border: 15px solid navy;-->
+<!--            padding: 10px-->
+<!--        }-->
+<!--    </style>-->
+</head>
+<body>
+<div id="test">
+    <svg width="200" height="200" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" />
+    </svg>
+    <svg width="200" height="200" viewBox="20 20 100 100">
+        <circle cx="50" cy="50" r="40" />
+    </svg>
+    <svg width="200" height="200" viewBox="0 0 50 50">
+        <circle cx="50" cy="50" r="40" />
+    </svg>
+    <div style="border: 1px solid navy; height: 100%"></div>
+</div>
+</body>
+<script>
+    var d = document.getElementById("test");
+    console.log(d)
+    var rect = d.getBoundingClientRect();
+    console.log("rect.left " + rect.left);
+    console.log("rect.right " + rect.right);
+    console.log("rect.top " + rect.top);
+    console.log("rect.bottom " + rect.bottom);
+    console.log("d.clientLeft " + d.clientLeft);
+    console.log("d.clientWidth " + d.clientWidth);
+    console.log("d.clientTop " + d.clientTop);
+    console.log("d.clientHeight " + d.clientHeight);
+</script>
+</html>
