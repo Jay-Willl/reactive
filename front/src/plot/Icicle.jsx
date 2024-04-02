@@ -29,7 +29,13 @@ function Icicle({data, layout}) {
             reds: d3.schemeReds,
 
         }
-    })
+    });
+
+    const translateScale = useCreation(() => {
+        // input: scale in rangeEvent
+        // output: real svg scale
+        return (scale) => 1 - 0.01 * (Math.pow(10, scale * 2));
+    }, []);
 
     const colorScale = useCreation(() => {
         return d3.scaleOrdinal(d3.schemeTableau10);
@@ -40,44 +46,69 @@ function Icicle({data, layout}) {
             x: layout.left,
             y: layout.top,
             width: layout.width,
-            height: layout.height,
-            // width: dimension.width * 0.9,
-            // height: dimension.height * 0.9
+            height: layout.height
         }
     }, [layout]);
 
     const expectedLayout = {
-
-        minRectHeight: layout.height * 0.05,
-
+        initRectHeight: layout.height * 0.05,
+        minRectHeight: 10,
+        maxRectHeight: layout.height * 0.3,
+        rectInterval: 1
     }
 
-    useUpdateLayoutEffect(() => {
-        console.log(icicleLayout);
+    const handleRectX = useCallback((st) => {
+        return st;
+    }, [expectedLayout]);
+
+    const handleRectWidth = useCallback((st, et) => {
+        return (et - st) * 100;
+    }, [expectedLayout]);
+
+    const handleRectY = useCallback((level) => {
+        return level * (expectedLayout.initRectHeight + expectedLayout.rectInterval);
+    }, [expectedLayout]);
+
+    const handleRectHeight = useCallback(() => {
+        return expectedLayout.initRectHeight
+    }, [expectedLayout]);
+
+    const zoom = useCallback(() => {
         const svg = d3.select(svgRef.current);
-
-        svg.selectAll("*").remove();
-
-        svg.append("svg")
-            .attr("width", icicleLayout.width)
-            .attr("height", icicleLayout.height)
-            .attr("transform", `translate(${icicleLayout.x},${icicleLayout.y})`)
-            // .attr("viewBox", `0 0 ${icicleLayout.width} ${icicleLayout.height}`);
-
-        svg.selectAll("*").remove();
+        svg.attr(
+            "viewBox",
+            `0 0 
+            ${icicleLayout.width / translateScale(rangeEvent.scale)} 
+            ${icicleLayout.height / translateScale(rangeEvent.scale)}`
+        )
 
         data.stackevents.forEach((rect) => {
             svg.append("rect")
-                .attr("x", rect.st)
-                .attr("y", rect.level * expectedLayout.minRectHeight)
-                .attr("width", (rect.et - rect.st) * 100)
-                .attr("height", expectedLayout.minRectHeight)
+                .attr("x", handleRectX(rect.st))
+                .attr("y", handleRectY(rect.level) / translateScale(rangeEvent.scale))
+                .attr("width", handleRectWidth(rect.st, rect.et))
+                .attr("height", handleRectHeight() / translateScale(rangeEvent.scale))
                 .style("fill", () => {
                     // console.log(rect);
                     return colorScale(rect.name);
                 });
         })
-    }, [icicleLayout]);
+    }, [rangeEvent, icicleLayout, translateScale]);
+
+    const draw = useCallback(() => {
+        const svg = d3.select(svgRef.current);
+        svg.selectAll("*").remove();
+        svg.append("svg")
+            .attr("width", icicleLayout.width)
+            .attr("height", icicleLayout.height)
+            .attr("transform", `translate(${icicleLayout.x},${icicleLayout.y})`)
+
+        zoom();
+    }, [handleRectX, handleRectWidth, handleRectY, handleRectHeight, icicleLayout, zoom]);
+
+    useUpdateLayoutEffect(() => {
+        draw();
+    }, [draw]);
 
     return (
         <div

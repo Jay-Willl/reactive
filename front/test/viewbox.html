@@ -4,26 +4,47 @@
     <meta charset="UTF-8">
     <title>test</title>
 
-<!--    <style>-->
-<!--        #test {-->
-<!--            width: 200px;-->
-<!--            height: 300px;-->
-<!--            border: 15px solid navy;-->
-<!--            padding: 10px-->
-<!--        }-->
-<!--    </style>-->
+    <!--    <style>-->
+    <!--        #test {-->
+    <!--            width: 200px;-->
+    <!--            height: 300px;-->
+    <!--            border: 15px solid navy;-->
+    <!--            padding: 10px-->
+    <!--        }-->
+    <!--    </style>-->
+    <style>
+        #testsvg {
+            width: 300px;
+            height: 200px;
+            border: 3px solid black;
+        }
+
+        #testdiv {
+            border: 3px solid black;
+        }
+    </style>
 </head>
 <body>
 <div id="test">
-    <svg width="200" height="200" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="40" />
+    <svg id="testsvg" viewBox="0 0 300 200">
+        <circle cx="0" cy="0" r="40"/>
     </svg>
-    <svg width="200" height="200" viewBox="20 20 100 100">
-        <circle cx="50" cy="50" r="40" />
+    <svg id="testsvg" viewBox="0 0 200 200">
+        <circle cx="0" cy="0" r="40"/>
     </svg>
-    <svg width="200" height="200" viewBox="0 0 50 50">
-        <circle cx="50" cy="50" r="40" />
+    <svg id="testsvg" viewBox="0 0 200 100">
+        <circle cx="0" cy="0" r="40"/>
     </svg>
+    <svg id="testsvg" viewBox="0 0 100 100">
+        <circle cx="0" cy="0" r="40"/>
+    </svg>
+    <svg id="testsvg" viewBox="20 20 100 100">
+        <circle cx="0" cy="0" r="40"/>
+    </svg>
+    <svg id="testsvg" viewBox="0 0 60 40">
+        <circle cx="0" cy="0" r="40"/>
+    </svg>
+
     <div style="border: 1px solid navy; height: 100%"></div>
 </div>
 </body>
