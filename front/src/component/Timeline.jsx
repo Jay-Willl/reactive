@@ -3,8 +3,7 @@ import {useCallback, useLayoutEffect, useRef, useState} from "react";
 import {useUpdateLayoutEffect} from "ahooks";
 import {useDispatch, useSelector} from "react-redux";
 
-import {editScale} from "../store/rangeStore.js";
-
+import {editEnd, editScale, editStart} from "../store/rangeStore.js";
 
 
 function Timeline({data}) {
@@ -26,13 +25,20 @@ function Timeline({data}) {
         height: dimension.height
     }
 
-    const timeLayout = {
+    const upperTimeLayout = {
         x: dimension.width * 0.2,
         y: 15,
         width: dimension.width * 0.8 - 40,
-        height: dimension.height - 50,
+        height: (dimension.height - 50) / 2,
         offsetX: 8,
         offsetY: 8
+    }
+
+    const bottomTimeLayout = {
+        x: dimension.width * 0.2,
+        y: 15 + (dimension.width - 50) / 2,
+        width: dimension.width * 0.8 - 40,
+        height: (dimension.height - 50) / 2
     }
 
     const axisLayout = {
@@ -44,10 +50,38 @@ function Timeline({data}) {
     }
 
     const pos2scale = useCallback((position) => {
-        let absWidth = timeLayout.width;
-        let absLeft = timeLayout.x;
+        let absWidth = upperTimeLayout.width;
+        let absLeft = upperTimeLayout.x;
         let dis = position.x - absLeft;
         return dis / absWidth;
+    }, [dimension]);
+
+    const x2scale = useCallback((x) => {
+        let absWidth = upperTimeLayout.width;
+        let absLeft = upperTimeLayout.x;
+        let dis = x - absLeft;
+        return dis / absWidth;
+    }, [dimension]);
+
+    const scale2x = useCallback((scale) => {
+        let absWidth = upperTimeLayout.width;
+        let absLeft = upperTimeLayout.x;
+        return scale * absWidth + absLeft;
+    }, [dimension]);
+
+    const decidePosition = useCallback((position) => {
+        if (position.x < upperTimeLayout.x || position.x > upperTimeLayout.x + upperTimeLayout.width ||
+            position.y < upperTimeLayout.y || position.y > bottomTimeLayout.y + upperTimeLayout.height) {
+            return -1;
+        } else if (position.y < upperTimeLayout.y + upperTimeLayout.height) {
+            return 0;
+        } else if (position.y < bottomTimeLayout.y + bottomTimeLayout.height) {
+            if (Math.abs(x2scale(position.x) * 100 - rangeEvent.start) < Math.abs(x2scale(position.x * 100) - rangeEvent.end)) {
+                return 1;
+            } else {
+                return 2;
+            }
+        }
     }, [dimension]);
 
     const draw = useCallback((ctx) => {
@@ -56,27 +90,42 @@ function Timeline({data}) {
         canvas.height = dimension.height;
         ctx.fillStyle = '#000000';
         ctx.fillRect(
-            timeLayout.x + timeLayout.offsetX, timeLayout.y - timeLayout.offsetY,
-            timeLayout.width, timeLayout.height
+            upperTimeLayout.x + upperTimeLayout.offsetX, upperTimeLayout.y - upperTimeLayout.offsetY,
+            upperTimeLayout.width, upperTimeLayout.height
         );
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(
-            timeLayout.x, timeLayout.y,
-            timeLayout.width, timeLayout.height
+            upperTimeLayout.x, upperTimeLayout.y,
+            upperTimeLayout.width, upperTimeLayout.height
         );
+        ctx.fillRect(
+            bottomTimeLayout.x, bottomTimeLayout.y,
+            bottomTimeLayout.width, bottomTimeLayout.height
+        )
         ctx.strokeRect(
-            timeLayout.x, timeLayout.y,
-            timeLayout.width, timeLayout.height
+            upperTimeLayout.x, upperTimeLayout.y,
+            upperTimeLayout.width, upperTimeLayout.height + bottomTimeLayout.height
         )
     }, [dimension]);
 
     const redraw = useCallback((ctx, position) => {
         draw(ctx);
-        ctx.fillStyle = '#5288F2'
+        // redraw scale rect
+        ctx.fillStyle = '#D9E8F5';
         ctx.fillRect(
-            timeLayout.x, timeLayout.y,
-            position.x - timeLayout.x - 1,
-            timeLayout.height
+            upperTimeLayout.x,
+            upperTimeLayout.y,
+            scale2x(rangeEvent.scale),
+            upperTimeLayout.height
+        )
+
+        // redraw position rect
+        ctx.fillStyle = '#91BED4';
+        ctx.fillRect(
+            scale2x(rangeEvent.start / 100),
+            bottomTimeLayout.y,
+            scale2x(rangeEvent.end / 100) - scale2x(rangeEvent.start / 100),
+            bottomTimeLayout.height
         )
     }, [dimension]);
 
@@ -86,10 +135,23 @@ function Timeline({data}) {
             x: e.clientX,
             y: e.clientY - rect.top
         }
+        console.log(position);
+        console.log(decidePosition(position));
+        if (decidePosition(position) === -1) {
+            return;
+        } else if (decidePosition(position) === 0) {
+            let scale = pos2scale(position);
+            dispatch(editScale(scale));
+        } else if (decidePosition(position)) {
+            if (decidePosition(position) === 1) {
+                let scale = pos2scale(position) * 100;
+                dispatch(editStart(scale));
+            } else if (decidePosition(position) === 2) {
+                let scale = pos2scale(position) * 100;
+                dispatch(editEnd(scale));
+            }
+        }
         redraw(ctx, position);
-        let scale = pos2scale(position);
-        dispatch(editScale(scale));
-        console.log(scale);
     }, [dimension]);
 
     const addE = useCallback(() => {

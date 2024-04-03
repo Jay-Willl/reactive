@@ -77,9 +77,7 @@ function Icicle({data, layout}) {
         const svg = d3.select(svgRef.current);
         svg.attr(
             "viewBox",
-            `0 0 
-            ${icicleLayout.width / translateScale(rangeEvent.scale)} 
-            ${icicleLayout.height / translateScale(rangeEvent.scale)}`
+            `0 0 ${icicleLayout.width / translateScale(rangeEvent.scale)} ${icicleLayout.height / translateScale(rangeEvent.scale)}`
         )
 
         data.stackevents.forEach((rect) => {
