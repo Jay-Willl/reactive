@@ -3,16 +3,20 @@ import {createSlice, configureStore} from "@reduxjs/toolkit";
 const rawConfigStore = createSlice({
     name: 'config',
     initialState: {
-        icicleColor: null
+        icicleColor: null,
+        displayedPlot: null
     },
     reducers: {
         editIcicleColor (state, action) {
             state.icicleColor = action.payload;
+        },
+        editDisplayedPlot (state, action) {
+            state.displayedPlot = action.payload;
         }
     }
 });
 
-const {editIcicleColor} = rawConfigStore.actions;
+const {editIcicleColor, editDisplayedPlot} = rawConfigStore.actions;
 const configReducer = rawConfigStore.reducer;
 const configStore = configureStore({
     reducer: {
@@ -20,5 +24,5 @@ const configStore = configureStore({
     }
 });
 
-export {editIcicleColor};
+export {editIcicleColor, editDisplayedPlot};
 export {configStore, configReducer};

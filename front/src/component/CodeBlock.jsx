@@ -1,11 +1,12 @@
-import {useState, useLayoutEffect, useRef} from "react";
-import {useSelector, useDispatch} from "react-redux";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import {atomDark} from "react-syntax-highlighter/dist/esm/styles/prism";
-import atomOneLight from "react-syntax-highlighter/src/styles/hljs/atom-one-light.js";
+import hljs from "highlight.js";
+import {useState, useEffect, useLayoutEffect, useRef} from "react";
+
+import 'highlight.js/styles/default.css';
+
 
 function CodeBlock({data}) {
     const divRef = useRef(null);
+    const codeRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
 
     const codeLayout = {
@@ -16,6 +17,13 @@ function CodeBlock({data}) {
         offsetX: 5,
         offsetY: 5
     }
+
+    useEffect(() => {
+        if (codeRef.current) {
+            hljs.highlightElement(codeRef.current);
+            hljs.highlightAll();
+        }
+    }, [data]);
 
     useLayoutEffect(() => {
         if (divRef.current) {
@@ -40,12 +48,11 @@ function CodeBlock({data}) {
                 id="highlight"
                 style={codeLayout}
             >
-                <SyntaxHighlighter
-                    style={{...atomOneLight, fontSize: '6px'}}
-                    wrapLines={true}
-                >
-                    {data.files.code[0]}
-                </SyntaxHighlighter>
+                <pre>
+                    <code ref={codeRef} className={`language-python`}>
+                        {data}
+                    </code>
+                </pre>
             </div>
         </div>
     )

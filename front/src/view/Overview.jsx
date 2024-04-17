@@ -15,7 +15,6 @@ import {Footer} from "../component/Footer.jsx";
 
 
 function Overview({stackData, listData}) {
-
     return (
         <Provider store={hoverStore}>
             <Provider store={rangeStore}>

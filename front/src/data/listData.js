@@ -1504,7 +1504,7 @@ const listData = {
         ]
     },
     "files": {
-        "/Users/blank/repo/pypf/backend/execute/sample1.py": [
+        "code": [
             "def solve_n_queens(n):\n    def is_safe(board, row, col):\n        for i in range(col):\n            if board[row][i] == 1:\n                return False\n\n        for i, j in zip(range(row, -1, -1), range(col, -1, -1)):\n            if board[i][j] == 1:\n                return False\n\n        for i, j in zip(range(row, -1, -1), range(col, n)):\n            if board[i][j] == 1:\n                return False\n\n        return True\n\n    def solve(board, col):\n        if col >= n:\n            solutions.append(board)\n            return True\n\n        for i in range(n):\n            if is_safe(board, i, col):\n                board[i][col] = 1\n                solve(board, col + 1)\n                board[i][col] = 0\n\n        return False\n\n    board = [[0] * n for _ in range(n)]\n    solutions = []\n    solve(board, 0)\n    return solutions\n\n\nsolve_n_queens(4)\n",
             36
         ]

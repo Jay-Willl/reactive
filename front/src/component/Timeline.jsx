@@ -199,11 +199,11 @@ function Timeline({data}) {
             .domain([0, 100])
             .range([0, axisLayout.axisWidth]);
 
-        var xLogAxis = d3.axisBottom(xLog)
+        var xLogAxis = d3.axisTop(xLog)
             .ticks(10, ",.1s")
             .tickSize(5);
 
-        var xLinearAxis = d3.axisTop(xLinear)
+        var xLinearAxis = d3.axisBottom(xLinear)
             // .ticks(10, ",.1s")
             .tickSize(5);
 

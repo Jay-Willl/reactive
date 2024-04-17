@@ -15,12 +15,8 @@ function D3Test({data}) {
             .padding(1);
     }, []);
 
-
-    console.log(root);
-    console.log(partition);
-
     useEffect(() => {
-        const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+        const margin = {top: 20, right: 30, bottom: 40, left: 90},
             width = 460 - margin.left - margin.right,
             height = 400 - margin.top - margin.bottom;
 
@@ -50,15 +46,32 @@ function D3Test({data}) {
             .attr("width", d => x(d))
             .attr("height", y.bandwidth())
             .attr("fill", "#69b3a2");
+
+        svg.call(d3.zoom().on("zoom", function (event) {
+            svg.attr("transform", event.transform);
+        }));
+
+        // 拖动
+        svg.call(d3.drag().on("drag", function (event) {
+            d3.select(this)
+                .attr("cx", event.x)
+                .attr("cy", event.y);
+        }));
     }, [data]);
 
     return (
-        <svg
-            ref={svgRef}
-            viewBox="0 0 400 300"
+        <div
+            style={{
+                border: "1px solid black"
+            }}
         >
+            <svg
+                ref={svgRef}
+                viewBox="0 0 400 300"
+            >
 
-        </svg>
+            </svg>
+        </div>
     )
 }
 

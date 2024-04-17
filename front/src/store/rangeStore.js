@@ -4,7 +4,7 @@ const rawRangeStore = createSlice({
     name: 'range',
     initialState: {
         start: 0,
-        end: 100,
+        end: 0,
         scale: 1
     },
     reducers: {

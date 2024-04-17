@@ -8,10 +8,7 @@ import {listData} from "./data/listData.js";
 function App() {
 
     return (
-        <Overview
-            stackData={stackData}
-            listData={listData}
-        />
+        <Overview stackData={stackData} listData={listData} />
         // <Test />
     )
 }

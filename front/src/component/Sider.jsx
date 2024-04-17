@@ -1,5 +1,6 @@
 import {useState, useLayoutEffect, useRef, useEffect, useMemo, useCallback} from "react";
 import {useSelector, useDispatch} from "react-redux";
+import {Card} from "antd";
 
 function Sider() {
     const hoverEvent = useSelector(state => state.hover);
@@ -76,7 +77,10 @@ function Sider() {
                     backgroundColor: "#FFF",
                 }}
             >
-
+                    <p>{hoverEvent?.pid}</p>
+                    <p>{hoverEvent?.tid}</p>
+                    <p>{hoverEvent?.st}</p>
+                    <p>{hoverEvent?.value}</p>
             </div>
         </div>
     )

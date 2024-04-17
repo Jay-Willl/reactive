@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D3 Zoom Example</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<svg width="800" height="600" style="border: 1px solid black;"></svg>
+
+<script>
+    const svg = d3.select("svg");
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
+
+    // 添加一个圆形
+    const circle = svg.append("circle")
+        .attr("cx", width / 2)
+        .attr("cy", height / 2)
+        .attr("r", 50)
+        .style("fill", "steelblue");
+
+    // 定义缩放和平移的行为
+    const zoom = d3.zoom()
+        .scaleExtent([0.5, 8]) // 设置缩放的最小和最大比例
+        .on("zoom", (event) => {
+            circle.attr("transform", event.transform);
+        });
+
+    // 应用缩放行为到 SVG 上
+    svg.call(zoom);
+</script>
+</body>
+</html>
