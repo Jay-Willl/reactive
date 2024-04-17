@@ -3,9 +3,8 @@ import {useState, useLayoutEffect, useRef, useEffect, useMemo, useCallback} from
 import {useUpdateLayoutEffect, useCreation} from "ahooks";
 import {useDispatch, useSelector} from "react-redux";
 
-import {editStart, editEnd, editScale} from "../store/rangeStore.js";
-import {selectStack, unselectStack} from "../store/hoverStore.js";
-import {Tooltip} from "../component/Tooltip.jsx";
+import {reactiveStore} from "../store/store.js";
+import {editStart, editEnd, editScale, selectStack, unselectStack} from "../store/store.js";
 
 /**
  * Bidirectional translation:
@@ -14,9 +13,7 @@ import {Tooltip} from "../component/Tooltip.jsx";
  */
 
 function Icicle({data, layout}) {
-    const rangeEvent = useSelector(state => state.range);
-    const hoverEvent = useSelector(state => state.hover);
-    const configEvent = useSelector(state => state.config);
+    const reactiveEvent = useSelector(state => state.reactive);
     const dispatch = useDispatch();
 
     const divRef = useRef(null);
@@ -58,11 +55,16 @@ function Icicle({data, layout}) {
     const currentBox2range = useCreation(() => {
         return (currentBox, totalBox) => {
             let startPercentage = currentBox[0] / totalBox.width;
-            let endPercentage = (currentBox[0] + currentBox[2]) / totalBox.width;
+            let endPercentage = (Number(currentBox[0]) + Number(currentBox[2])) / totalBox.width;
+            // console.log("currentBox " + currentBox);
+            // console.log("totalBox width " + totalBox.width)
+            // console.log("percentage " + startPercentage + " " + endPercentage);
             return [startPercentage, endPercentage];
         }
     }, []);
 
+    // input: start and end percentage
+    // output: corresponding ViewBox parameter (index 0 & 2)
     const range2currentBox = useCreation(() => {
         return (range, totalBox) => {
             let currentStart = range[0] * totalBox.width;
@@ -195,7 +197,7 @@ function Icicle({data, layout}) {
             parts[index] = val;
             svgRef.current.setAttribute("viewBox", parts.join(' '));
         }
-        console.log(getViewBoxVal());
+        // console.log(getViewBoxVal());
         metadata.current.currentBox = getViewBoxVal();
         dispatchRangeChange();
     }, [svgRef]);
@@ -204,13 +206,12 @@ function Icicle({data, layout}) {
         let rangeArr = currentBox2range(metadata.current.currentBox, metadata.current.totalBox);
         dispatch(editStart(rangeArr[0] * 100));
         dispatch(editEnd(rangeArr[1] * 100));
-        console.log(rangeArr);
-        console.log(rangeEvent);
-        console.log(hoverEvent);
+        // console.log(rangeArr);
+        // console.log(reactiveEvent);
     }, [svgRef]);
 
     const handleKey = (event) => {
-        console.log(event);
+        // console.log(event);
         event.preventDefault();
         if (event.key === "ArrowLeft") {
             setViewBoxVal(-100, 0, "inc");
@@ -225,7 +226,7 @@ function Icicle({data, layout}) {
 
     const handleWheel = (event) => {
         let scaleIncrement = 0.1;
-        console.log(event);
+        // console.log(event);
         event.preventDefault();
         if (event.deltaY < 0) {
             setViewBoxVal(event.deltaY * scaleIncrement, 2, "inc");
@@ -235,7 +236,7 @@ function Icicle({data, layout}) {
     }
 
     const handleHover = (event) => {
-        console.log(event);
+        // console.log(event);
         d3.selectAll("rect")
             .on("mouseover", function (d, i) {
                 console.log(i);
@@ -254,6 +255,14 @@ function Icicle({data, layout}) {
         svgRef.current.addEventListener("wheel", handleWheel);
         handleHover();
 
+        const unsubscribe = reactiveStore.subscribe(() => {
+            const currentState = reactiveStore.getState();
+
+        })
+
+        return () => {
+            unsubscribe();
+        }
     }, [draw]);
 
     return (

@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {Card} from "antd";
 
 function Sider() {
-    const hoverEvent = useSelector(state => state.hover);
+    const reactiveEvent = useSelector(state => state.reactive);
     const dispatch = useDispatch();
 
     const divRef = useRef(null);
@@ -77,10 +77,10 @@ function Sider() {
                     backgroundColor: "#FFF",
                 }}
             >
-                    <p>{hoverEvent?.pid}</p>
-                    <p>{hoverEvent?.tid}</p>
-                    <p>{hoverEvent?.st}</p>
-                    <p>{hoverEvent?.value}</p>
+                    <p>{reactiveEvent.hover.stack?.pid}</p>
+                    <p>{reactiveEvent.hover.stack?.tid}</p>
+                    <p>{reactiveEvent.hover.stack?.st}</p>
+                    <p>{reactiveEvent.hover.stack?.value}</p>
             </div>
         </div>
     )

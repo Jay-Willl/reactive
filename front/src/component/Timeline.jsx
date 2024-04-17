@@ -1,13 +1,14 @@
 import * as d3 from "d3";
-import {useCallback, useLayoutEffect, useRef, useState} from "react";
+import {useCallback, useLayoutEffect, useRef, useState, useEffect} from "react";
 import {useUpdateLayoutEffect} from "ahooks";
 import {useDispatch, useSelector} from "react-redux";
 
-import {editEnd, editScale, editStart} from "../store/rangeStore.js";
+import {reactiveStore} from "../store/store.js";
+import {editStart, editEnd, editScale, selectStack, unselectStack} from "../store/store.js";
 
 
 function Timeline({data}) {
-    const rangeEvent = useSelector(state => state.range);
+    const reactiveEvent = useSelector(state => state.reactive);
     const dispatch = useDispatch();
 
     const canvasRef = useRef(null);
@@ -36,7 +37,7 @@ function Timeline({data}) {
 
     const bottomTimeLayout = {
         x: dimension.width * 0.2,
-        y: 15 + (dimension.width - 50) / 2,
+        y: 15 + upperTimeLayout.height,
         width: dimension.width * 0.8 - 40,
         height: (dimension.height - 50) / 2
     }
@@ -76,13 +77,13 @@ function Timeline({data}) {
         } else if (position.y < upperTimeLayout.y + upperTimeLayout.height) {
             return 0;
         } else if (position.y < bottomTimeLayout.y + bottomTimeLayout.height) {
-            if (Math.abs(x2scale(position.x) * 100 - rangeEvent.start) < Math.abs(x2scale(position.x * 100) - rangeEvent.end)) {
+            if (Math.abs(x2scale(position.x) * 100 - reactiveEvent.range.start) < Math.abs(x2scale(position.x * 100) - reactiveEvent.range.end)) {
                 return 1;
             } else {
                 return 2;
             }
         }
-    }, [dimension]);
+    }, [dimension, reactiveEvent]);
 
     const draw = useCallback((ctx) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -108,50 +109,62 @@ function Timeline({data}) {
         )
     }, [dimension]);
 
-    const redraw = useCallback((ctx, position) => {
+    const redraw = useCallback((ctx) => {
+        const currentState = reactiveStore.getState();
+        // console.log(currentState.reactive.range)
+
         draw(ctx);
         // redraw scale rect
         ctx.fillStyle = '#D9E8F5';
         ctx.fillRect(
             upperTimeLayout.x,
             upperTimeLayout.y,
-            scale2x(rangeEvent.scale),
+            scale2x(currentState.reactive.range.scale) - upperTimeLayout.x,
             upperTimeLayout.height
         )
+        // console.log('scale ' + upperTimeLayout.x + ' ' + scale2x(currentState.reactive.range.scale));
 
         // redraw position rect
         ctx.fillStyle = '#91BED4';
         ctx.fillRect(
-            scale2x(rangeEvent.start / 100),
+            scale2x(currentState.reactive.range.start / 100),
             bottomTimeLayout.y,
-            scale2x(rangeEvent.end / 100) - scale2x(rangeEvent.start / 100),
+            scale2x(currentState.reactive.range.end / 100) - scale2x(currentState.reactive.range.start / 100),
             bottomTimeLayout.height
         )
+        // console.log('position ' + scale2x(currentState.reactive.range.start / 100) + ' ' + scale2x(currentState.reactive.range.end / 100));
     }, [dimension]);
 
     const handleEvent = useCallback((e) => {
+        const currentEvent = reactiveStore.getState();
         const rect = canvas.getBoundingClientRect();
         const position = {
             x: e.clientX,
             y: e.clientY - rect.top
         }
-        console.log(position);
-        console.log(decidePosition(position));
+
+        // console.log(position);
+        // console.log(decidePosition(position));
+
         if (decidePosition(position) === -1) {
             return;
         } else if (decidePosition(position) === 0) {
             let scale = pos2scale(position);
             dispatch(editScale(scale));
         } else if (decidePosition(position)) {
-            if (decidePosition(position) === 1) {
+            if (e.button === 0) {
                 let scale = pos2scale(position) * 100;
-                dispatch(editStart(scale));
-            } else if (decidePosition(position) === 2) {
+                if (currentEvent.reactive.range.end < scale) {
+                    return;
+                } else {
+                    dispatch(editStart(scale));
+                }
+            } else if (e.button === 2) {
                 let scale = pos2scale(position) * 100;
                 dispatch(editEnd(scale));
             }
         }
-        redraw(ctx, position);
+        redraw(ctx);
     }, [dimension]);
 
     const addE = useCallback(() => {
@@ -164,8 +177,6 @@ function Timeline({data}) {
             const style = window.getComputedStyle(divRef.current);
             // console.log(divRef.current.clientWidth)
             // console.log(divRef.current.clientHeight)
-            // console.log(style.paddingLeft)
-            // console.log(style.paddingTop)
             setDimension({
                 width: divRef.current.clientWidth,
                 height: divRef.current.clientHeight
@@ -176,10 +187,18 @@ function Timeline({data}) {
     useUpdateLayoutEffect(() => {
         canvas = canvasRef.current;
         ctx = canvas.getContext('2d');
-        draw(ctx);
-        console.log("effect from timeline!")
+        redraw(ctx);
         addE();
-    }, [addE]);
+
+        const unsubscribe = reactiveStore.subscribe(() => {
+            const currentState = reactiveStore.getState();
+            redraw(ctx);
+        })
+
+        return () => {
+            unsubscribe();
+        }
+    }, [addE, redraw]);
 
     useLayoutEffect(() => {
         const svg = d3.select(axisRef.current);
@@ -235,7 +254,8 @@ function Timeline({data}) {
                 ref={canvasRef}
             >
             </canvas>
-
+            <p>{reactiveEvent.range.start}</p>
+            <p>{reactiveEvent.range.end}</p>
         </div>
     )
 }

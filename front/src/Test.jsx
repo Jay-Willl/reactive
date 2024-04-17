@@ -5,7 +5,6 @@ import {Tooltip} from "./component/Tooltip.jsx";
 
 import {stackData} from "./data/stackData.js";
 import {listData} from "./data/listData.js";
-import {D3Test} from "./plot/D3Test.jsx";
 
 const data = [10, 30, 50, 60];
 
@@ -37,7 +36,6 @@ function Test() {
             {/*<Icicle data={listData.stackevents}/>*/}
             {/*<TestTooltip />*/}
             {/*<CodeBlock data={listData.files.code[0]}/>*/}
-            <D3Test data={data}/>
         </>
     )
 }
