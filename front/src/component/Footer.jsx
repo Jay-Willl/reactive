@@ -3,11 +3,11 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Flex, Button, Select, Row, Col} from "antd";
 
-import {editDisplayedPlot, editIcicleColor} from "../store/configStore.js";
+import {editIcicleColor, editDisplayedPlot} from "../store/store.js";
 
 
 function Footer() {
-    const configEvent = useSelector(state => state.config);
+    const reactiveEvent = useSelector(state => state.reactive);
     const dispatch = useDispatch();
     const divRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});

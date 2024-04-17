@@ -254,8 +254,6 @@ function Timeline({data}) {
                 ref={canvasRef}
             >
             </canvas>
-            <p>{reactiveEvent.range.start}</p>
-            <p>{reactiveEvent.range.end}</p>
         </div>
     )
 }

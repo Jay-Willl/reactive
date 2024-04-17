@@ -67,8 +67,8 @@ function Icicle({data, layout}) {
     // output: corresponding ViewBox parameter (index 0 & 2)
     const range2currentBox = useCreation(() => {
         return (range, totalBox) => {
-            let currentStart = range[0] * totalBox.width;
-            let currentEnd = range[1] * totalBox.width - currentStart;
+            let currentStart = range[0] * totalBox.width / 100;
+            let currentEnd = (range[1] * totalBox.width - currentStart) / 100;
             return [currentStart, currentEnd];
         }
     }, []);
@@ -185,6 +185,22 @@ function Icicle({data, layout}) {
         return svgRef.current.getAttribute("viewBox").split(' ');
     }, [svgRef]);
 
+    const setViewBoxValWithoutDispatch = useCallback((val, index, str) => {
+        if (str === "inc") {
+            let viewBox = svgRef.current.getAttribute("viewBox");
+            let parts = viewBox.split(' ');
+            parts[index] = Number(parts[index]) + val;
+            svgRef.current.setAttribute("viewBox", parts.join(' '));
+        } else if (str === "abs") {
+            let viewBox = svgRef.current.getAttribute("viewBox");
+            let parts = viewBox.split(' ');
+            parts[index] = val;
+            svgRef.current.setAttribute("viewBox", parts.join(' '));
+        }
+        // console.log(getViewBoxVal());
+        metadata.current.currentBox = getViewBoxVal();
+    }, [svgRef]);
+
     const setViewBoxVal = useCallback((val, index, str) => {
         if (str === "inc") {
             let viewBox = svgRef.current.getAttribute("viewBox");
@@ -206,8 +222,17 @@ function Icicle({data, layout}) {
         let rangeArr = currentBox2range(metadata.current.currentBox, metadata.current.totalBox);
         dispatch(editStart(rangeArr[0] * 100));
         dispatch(editEnd(rangeArr[1] * 100));
-        // console.log(rangeArr);
-        // console.log(reactiveEvent);
+        dispatch(editScale((metadata.current.currentBox[2]) / metadata.current.totalBox.width));
+        console.log(metadata.current.currentBox);
+    }, [svgRef]);
+
+    const handleOutsideModify = useCallback(() => {
+        const currentState = reactiveStore.getState();
+        let tempBox = range2currentBox([currentState.reactive.range.start, currentState.reactive.range.end], metadata.current.totalBox);
+
+        setViewBoxValWithoutDispatch(tempBox[0], 0, "abs");
+        setViewBoxValWithoutDispatch(tempBox[1] - tempBox[0], 2, "abs");
+        // console.log(metadata.current.currentBox)
     }, [svgRef]);
 
     const handleKey = (event) => {
@@ -215,8 +240,10 @@ function Icicle({data, layout}) {
         event.preventDefault();
         if (event.key === "ArrowLeft") {
             setViewBoxVal(-100, 0, "inc");
+            setViewBoxVal(1, 2, "inc");
         } else if (event.key === "ArrowRight") {
             setViewBoxVal(+100, 0, "inc");
+            setViewBoxVal(1, 2, "inc");
         } else if (event.key === "ArrowUp") {
             setViewBoxVal(+50, 2, "inc");
         } else if (event.key === "ArrowDown") {
@@ -239,8 +266,8 @@ function Icicle({data, layout}) {
         // console.log(event);
         d3.selectAll("rect")
             .on("mouseover", function (d, i) {
-                console.log(i);
-                console.log(d);
+                // console.log(i);
+                // console.log(d);
                 dispatch(selectStack(i))
             })
             .on("mouseout", function () {
@@ -257,7 +284,7 @@ function Icicle({data, layout}) {
 
         const unsubscribe = reactiveStore.subscribe(() => {
             const currentState = reactiveStore.getState();
-
+            handleOutsideModify();
         })
 
         return () => {
