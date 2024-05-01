@@ -1,30 +1,32 @@
 import cProfile
-import multiprocessing
 import pstats
 import os
 import operator
 import runpy
+import tempfile
 import time
 from inspect import isfunction
+from icecream import ic
 
 
 class Profiler:
-    def __init__(self, run_obj):
-        self.obj = run_obj
-        self.obj_type = self.get_obj_type(run_obj)
+    def __init__(self, name, obj):
+        self.name = name
+        self.obj = obj
+        self.obj_type = self.get_obj_type(obj)
         self.init_profiler()
 
     def run(self):
-        return self.profile
+        self.profile()
 
-    def get_obj_type(self, run_obj):
-        # print(type(self.obj))
-        if str(self.obj).endswith('.py'):
-            return 'module'
-        elif isfunction(self.obj):
-            return 'function'
-        elif os.path.isdir(self.obj):
-            return 'package'
+    def get_obj_type(self, obj):
+        return 'module'
+        # if str(self.obj).endswith('.py'):
+        #     return 'module'
+        # elif isfunction(self.obj):
+        #     return 'function'
+        # elif os.path.isdir(self.obj):
+        #     return 'package'
 
     def init_profiler(self):
         if self.obj_type == 'function':
@@ -51,6 +53,40 @@ class Profiler:
                  cum_calls, time_per_call, filename))
         return sorted(records, key=operator.itemgetter(4), reverse=True)
 
+
+    def module_profiler(self):
+        with tempfile.NamedTemporaryFile(delete=False, prefix=self.name, suffix='.py', mode='w') as f:
+            f.write(self.obj)
+            temp_path = f.name
+            ic(temp_path)
+
+            # prof = cProfile.Profile()
+            # prof.enable()
+            # # >>> #
+            # runpy.run_path(temp_path)
+            # # <<< #
+            # prof.disable()
+
+            prof = cProfile.Profile()
+            try:
+                with open(temp_path, 'rb') as srcfile:
+                    code = compile(f.read(), temp_path, 'exec')
+                prof.runctx(code, None, None)
+            except SystemExit:
+                pass
+
+            prof_stats = pstats.Stats(prof)
+            call_stats = self.parse_prof_stats(prof_stats)
+            os.remove(temp_path)
+
+            return {
+                'timestamp': int(time.time()),
+                'totalTime': prof_stats.total_tt,
+                'primitiveCalls': prof_stats.prim_calls,
+                'totalCalls': prof_stats.total_calls,
+                'callStats': call_stats
+            }
+
     def function_profiler(self):
         prof = cProfile.Profile()
         prof.enable()
@@ -62,26 +98,6 @@ class Profiler:
         prof_stats.calc_callees()
         call_stats = self.parse_prof_stats(prof_stats)
         return {
-            'result': result,
-            'timestamp': int(time.time()),
-            'totalTime': prof_stats.total_tt,
-            'primitiveCalls': prof_stats.prim_calls,
-            'totalCalls': prof_stats.total_calls,
-            'callStats': call_stats
-        }
-
-    def module_profiler(self):
-        prof = cProfile.Profile()
-        prof.enable()
-        # >>> #
-        result = runpy.run_path(self.obj)
-        # <<< #
-        prof.disable()
-        prof_stats = pstats.Stats(prof)
-        prof_stats.calc_callees()
-        call_stats = self.parse_prof_stats(prof_stats)
-        return {
-            'result': result,
             'timestamp': int(time.time()),
             'totalTime': prof_stats.total_tt,
             'primitiveCalls': prof_stats.prim_calls,
@@ -100,7 +116,6 @@ class Profiler:
         prof_stats.calc_callees()
         call_stats = self.parse_prof_stats(prof_stats)
         return {
-            'result': result,
             'timestamp': int(time.time()),
             'totalTime': prof_stats.total_tt,
             'primitiveCalls': prof_stats.prim_calls,

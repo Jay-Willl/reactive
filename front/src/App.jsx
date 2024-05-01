@@ -1,5 +1,5 @@
 import {Test} from "./Test.jsx";
-import {Overview} from "./view/Overview.jsx";
+import {OverView} from "./view/OverView.jsx";
 
 import {stackData} from "./data/stackData.js";
 import {listData} from "./data/listData.js";
@@ -8,7 +8,16 @@ import {listData} from "./data/listData.js";
 function App() {
 
     return (
-        <Overview stackData={stackData} listData={listData} />
+        // <Router>
+        //     <Routes>
+        //         <Route path="/" element={<UploadView />}/>
+        //         <Route path="/result" />
+        //
+        //     </Routes>
+        // </Router>
+
+        // <UploadView />
+        <OverView stackData={stackData} listData={listData} />
         // <Test />
     )
 }

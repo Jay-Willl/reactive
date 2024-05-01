@@ -11,7 +11,7 @@ import {Timeline} from '../component/Timeline.jsx';
 import {Footer} from "../component/Footer.jsx";
 
 
-function Overview({stackData, listData}) {
+function OverView({stackData, listData}) {
     return (
         <Provider store={reactiveStore}>
                     <Row gutter={[0, 0]}>
@@ -32,4 +32,4 @@ function Overview({stackData, listData}) {
     )
 }
 
-export {Overview};
+export {OverView};

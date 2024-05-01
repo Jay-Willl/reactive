@@ -63,26 +63,26 @@ function Content({stackData, listData}) {
                 height: '100%'
             }}
         >
-            <div
-                className="content-background"
-                style={{
-                    ...contentBackgroundLayout,
-                    position: "absolute",
-                    backgroundColor: "#000",
-                }}
-            >
-            </div>
-            <div
-                className="content-component"
-                style={{
-                    ...contentComponentLayout,
-                    position: "absolute",
-                    border: "2px solid #999",
-                    backgroundColor: "#FFF",
-                }}
-            >
-                <Icicle data={listData} layout={contentComponentLayout}/>
-            </div>
+            <Icicle data={listData} layout={contentComponentLayout}/>
+            {/*<div*/}
+            {/*    className="content-background"*/}
+            {/*    style={{*/}
+            {/*        ...contentBackgroundLayout,*/}
+            {/*        position: "absolute",*/}
+            {/*        backgroundColor: "#000",*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*</div>*/}
+            {/*<div*/}
+            {/*    className="content-component"*/}
+            {/*    style={{*/}
+            {/*        ...contentComponentLayout,*/}
+            {/*        position: "absolute",*/}
+            {/*        border: "2px solid #999",*/}
+            {/*        backgroundColor: "#FFF",*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*</div>*/}
         </div>
     )
 }
