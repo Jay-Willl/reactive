@@ -5,31 +5,57 @@ import os
 import psutil
 import json
 
-from rprof import profiler
-
 
 class IsolateRunner(multiprocessing.Process):
-    def __init__(self, target, *args, **kwargs):
+    """Process subclass that propagates exceptions to parent process.
+
+    Also handles sending function output to parent process.
+    Args:
+        parent_conn: Parent end of multiprocessing.Pipe.
+        child_conn: Child end of multiprocessing.Pipe.
+        result: Result of the child process.
+    """
+
+    def __init__(self, result, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.target = target
-        self.args = args
-        self.kwargs = kwargs
+        self.parent_conn, self.child_conn = multiprocessing.Pipe()
+        self.result = result
 
     def run(self):
-        print(f"Subprocess started for: {self.target}")
         try:
-            self.target(self.args, self.kwargs)
-        except Exception as e:
-            print(f"Subprocess raise exception: {e}")
-        finally:
-            print(f"Subprocess close for: {self.target}")
+            self.result.update(
+                self._target(*self._args, **self._kwargs))
+            self.child_conn.send(None)
+        except Exception as exc:  # pylint: disable=broad-except
+            self.child_conn.send(exc)
+
+    @property
+    def exception(self):
+        """Returns exception from child process."""
+        return self.parent_conn.recv()
+
+    @property
+    def output(self):
+        """Returns target function output."""
+        return self.result._getvalue()  # pylint: disable=protected-access
 
 
-def run_isolately(target, *args, **kwargs):
-    process = IsolateRunner(target, args, kwargs)
+def run_isolately(func, *args, **kwargs):
+    """Runs function in separate process.
+
+    This function is used instead of a decorator, since Python multiprocessing
+    module can't serialize decorated function on all platforms.
+    """
+    manager = multiprocessing.Manager()
+    manager_dict = manager.dict()
+    process = IsolateRunner(
+        manager_dict, target=func, args=args, kwargs=kwargs)
     process.start()
     process.join()
-
+    exc = process.exception
+    if exc:
+        raise exc
+    return process.output
 
 
 
