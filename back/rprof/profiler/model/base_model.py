@@ -10,7 +10,7 @@ class Event:
         self.dur = dur
         self.name = name
         self.str = f'EVENT {self.name}: <{self.dur}><{self.st} -> {self.et}>'
-        self.hash = hashlib.sha256(self.str.encode())
+        self.hash = hashlib.sha256(self.str.encode()).hexdigest()
 
     def __repr__(self):
         return f'EVENT {self.name}: <{self.dur}><{self.st} -> {self.et}>'
@@ -23,7 +23,7 @@ class Event:
             "et": self.et,
             "value": self.dur,
             "name": self.name,
-            "hash": self.hash.hexdigest()
+            "hash": self.hash
         }
 
 
@@ -50,28 +50,41 @@ class StackEvent:
             "et": self.et,
             "dur": self.dur,
             "name": self.name,
-            "hash": self.hash.hexdigest(),
+            "hash": self.hash,
             "level": self.level,
-            "children": [obj.to_dict for obj in self.children]
+            "children": [obj.to_dict() for obj in self.children]
         }
 
 
+class Metadata:
+    def __init__(self):
+        self.glob_st = None
+        self.glob_et = None
+        self.root_event = None
+
+
+class BaseProfilerResult:
+    def __init__(self):
+        pass
+
+
+
 class EventProfilerResult:
-    def __init__(self, metadata, listview, stackview, functions, files):
-        self.metadata = metadata
-        self.listview = listview
-        self.stackview = stackview
+    def __init__(self, functions, files, listview, stackview, rootevent):
         self.functions = functions
         self.files = files
+        self.listview = listview
+        self.stackview = stackview
+        self.rootevent = rootevent
 
     def __repr__(self):
         return
 
     def to_dict(self):
         return {
-            "metadata": self.metadata,
-            "listview": self.listview,
-            "stackview": self.stackview,
             "functions": self.functions,
-            "files": self.files
+            "files": self.files,
+            "listview": self.listview,
+            # "stackview": self.stackview,
+            "stackview": self.rootevent
         }

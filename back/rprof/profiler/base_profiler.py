@@ -2,8 +2,6 @@ import cProfile
 import pstats
 import os
 import operator
-import runpy
-import tempfile
 import time
 from icecream import ic
 
@@ -50,6 +48,7 @@ class BaseProfiler:
             pass
         raw_stats = pstats.Stats(prof)
         stats = self.parse_raw_stats(raw_stats)
+        print(stats)
         return {
             'objectName': self.obj_name,
             # 'callStats': self._transform_stats(prof_stats),
@@ -70,8 +69,20 @@ class BaseProfiler:
             else:
                 percentage = round(100 * (cum_time / raw_stats.total_tt), 4)
             cum_time = round(cum_time, 4)
-            func_name = '%s @ %s' % (funcname, filename)
-            records.append(
-                (filename, lineno, funcname, cum_time, percentage, num_calls,
-                 cum_calls, time_per_call, filename))
+            func_name = str('%s @ %s' % (funcname, filename))
+            records.append((
+                filename,  # '.../dummy_module.py'
+                lineno,  # 1
+                func_name,  #
+                cum_time,
+                percentage,
+                num_calls,
+                cum_calls,
+                time_per_call,
+                filename
+            ))
         return sorted(records, key=operator.itemgetter(4), reverse=True)
+
+    @staticmethod
+    def warp_info():
+        pass

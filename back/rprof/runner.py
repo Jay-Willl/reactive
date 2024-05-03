@@ -27,6 +27,9 @@ class IsolateRunner(multiprocessing.Process):
                 self._target(*self._args, **self._kwargs))
             self.child_conn.send(None)
         except Exception as exc:  # pylint: disable=broad-except
+            import traceback
+            stack_trace = traceback.format_exc()
+            print(stack_trace)
             self.child_conn.send(exc)
 
     @property
@@ -54,7 +57,7 @@ def run_isolately(func, *args, **kwargs):
     process.join()
     exc = process.exception
     if exc:
-        raise exc
+        pass
     return process.output
 
 

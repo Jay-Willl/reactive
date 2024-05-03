@@ -11,7 +11,7 @@ from .model.base_model import *
 from .model.calc_model import *
 
 _TEMP_FILEPATH = '/var/tmp/temp_output.json'
-
+_SAMPlE_FILEPATH = '/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy.json'
 
 class EventProfiler:
     def __init__(self, obj):
@@ -47,11 +47,11 @@ class EventProfiler:
                 tracer.stop()
                 # tracer.save('/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy.json')
                 tracer.save(_TEMP_FILEPATH)
-            except SystemExit:
-                pass
+            except Exception:
+                import traceback
+                traceback.print_exc()
+        return EventProfiler.parse_raw_stats()
 
-        EventProfiler.parse_raw_stats()
-        return
 
     @staticmethod
     def parse_raw_stats():
@@ -78,10 +78,32 @@ class EventProfiler:
                 max_heap=max_heap,
                 stack_view=stack_view
             )
-            ic(list_view)
-            ic(stack_view)
-            ic(target_event)
-            pass
+            result = EventProfiler.warp_info(
+                raw_events=raw_events,
+                raw_files=raw_files,
+                raw_functions=raw_functions,
+                list_view=list_view,
+                stack_view=stack_view,
+                target_event=target_event
+            ).to_dict()
+            # ic(raw_functions)
+            # ic(list_view)
+            # ic(stack_view)
+            # ic(target_event)
+
+            ic(type(result['listview']))
+            ic(type(result['functions']))
+            ic(type(result['files']))
+
+            with open(_SAMPlE_FILEPATH, 'w') as f:
+                # f.write(json.dumps(result['listview']))
+                # f.write(json.dumps(result['stackview']))
+                # f.write(json.dumps(result['functions']))
+                # f.write(json.dumps(result['files']))
+                # f.write(json.dumps(result['rootevent']))
+                f.write(json.dumps(result))
+                f.flush()
+            return result
 
     @staticmethod
     def register_event(raw_events, min_heap, max_heap, list_view):
@@ -157,8 +179,14 @@ class EventProfiler:
                 break
             else:
                 continue
-        return target_event
+        return target_event.to_dict()
 
     @staticmethod
-    def warp_info(raw_event, list_view, stack_view):
-        pass
+    def warp_info(raw_events, raw_files, raw_functions, list_view, stack_view, target_event):
+        return EventProfilerResult(
+            functions=raw_functions,
+            files=raw_files,
+            listview=[obj.to_dict() for obj in list_view],
+            stackview=[obj.to_dict() for obj in stack_view],
+            rootevent=target_event
+        )
