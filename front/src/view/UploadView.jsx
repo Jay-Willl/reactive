@@ -1,44 +1,44 @@
 import {useState} from 'react';
+import {useNavigate} from "react-router-dom";
+import {Button, Upload, message} from "antd";
+import {UploadOutlined} from '@ant-design/icons';
+import {Col, Row, Space} from "antd";
 
-function UploadPage() {
-    const [file, setFile] = useState(null);
 
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
+
+function UploadView() {
+    let navigate = useNavigate();
+
+    const props = {
+        name: 'file',
+        action: 'http://localhost:5174/upload/test',
+        headers: {
+            authorization: 'authorization-text',
+        },
+        onChange(i) {
+            if (i.file.status !== 'uploading') {
+                console.log(i.file, i.fileList);
+            }
+            if (i.file.status === 'done') {
+                message.success(`${i.file.name} file uploaded successfully`);
+                localStorage.setItem('result', JSON.stringify(i.file.response))
+                console.log(localStorage.getItem('result'))
+                navigate('/')
+            } else if (i.file.status === 'error') {
+                message.error(`${i.file.name} file upload failed.`);
+            }
+        },
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        if (!file) {
-            alert('Please select a file first!');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            const response = await fetch('YOUR_BACKEND_URL/upload', {
-                method: 'POST',
-                body: formData,
-            });
-            const result = await response.json();
-            navigate('/result', {state: {data: result}});
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            alert('Failed to upload file');
-        }
-    };
 
     return (
         <div>
-            <h1>Upload your data</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="file" onChange={handleFileChange}/>
-                <button type="submit">Upload</button>
-            </form>
+            <h1>Upload Your Python File</h1>
+            <Upload {...props}>
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+            </Upload>
         </div>
     );
 }
 
-export {UploadPage};
+export {UploadView};

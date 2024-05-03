@@ -1,8 +1,6 @@
-import {useEffect} from "react";
 import {Provider} from "react-redux";
 import {useSelector, useDispatch} from "react-redux";
 import {Col, Row, Space} from "antd";
-import {useGetState} from "ahooks";
 
 import {reactiveStore} from "../store/store.js";
 
@@ -14,37 +12,20 @@ import {Footer} from "../component/Footer.jsx";
 
 
 function OverView({stackData, listData}) {
-    const [result, setResult, getResult] = useGetState({});
-
-    useEffect(() => {
-        const result = localStorage.getItem('result');
-        if (result) {
-            setResult(JSON.parse(result));
-        }
-
-        const interval = setInterval(() => {
-            console.log('result: ', getResult());
-        }, 3000);
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
-
     return (
         <Provider store={reactiveStore}>
             <Row gutter={[0, 0]}>
                 <Col className="overview-header" id="overview-header" span={24}>
-                    <Timeline/>
+                    <Timeline />
                 </Col>
                 <Col className="overview-sider" id="overview-sider" span={5}>
-                    <Sider/>
+                    <Sider />
                 </Col>
                 <Col className="overview-main" id="overview-content" span={19}>
                     <Content stackData={stackData} listData={listData}/>
                 </Col>
                 <Col className="overview-footer" id="overview-footer" span={24}>
-                    <Footer/>
+                    <Footer />
                 </Col>
             </Row>
         </Provider>

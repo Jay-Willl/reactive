@@ -27,7 +27,7 @@ def create_app():
     @app.route('/upload/test', methods=['POST'])
     def upload_code():
         print(request.files)
-        file = request.files['']
+        file = request.files['file']
         print(file)
         if file:
             file_content = file.read()
@@ -36,10 +36,10 @@ def create_app():
             print('file_name: ', file_name)
             print('file_content: ', file_content)
             # temp_frame = frame.Frame(name=file_name, code=file_content)
-        return 'r'
+        return 'File uploaded successfully', 200
 
     return app
 
 
 app = create_app()
-app.run(host='0.0.0.0', port=5016)
+app.run(debug=True, host='0.0.0.0', port=5174)
