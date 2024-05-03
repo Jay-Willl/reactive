@@ -9,4 +9,5 @@ class Frame:
     def __init__(self, name, code):
         self.name = name
         self.code = code
-        self.profiler = BaseProfiler(self.name)
+        self.base_profiler = BaseProfiler(self.name)
+        self.event_profiler = EventProfiler(self.name)

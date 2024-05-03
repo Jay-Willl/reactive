@@ -95,14 +95,14 @@ class EventProfiler:
             ic(type(result['functions']))
             ic(type(result['files']))
 
-            with open(_SAMPlE_FILEPATH, 'w') as f:
-                # f.write(json.dumps(result['listview']))
-                # f.write(json.dumps(result['stackview']))
-                # f.write(json.dumps(result['functions']))
-                # f.write(json.dumps(result['files']))
-                # f.write(json.dumps(result['rootevent']))
-                f.write(json.dumps(result))
-                f.flush()
+            # with open(_SAMPlE_FILEPATH, 'w') as f:
+            #     # f.write(json.dumps(result['listview']))
+            #     # f.write(json.dumps(result['stackview']))
+            #     # f.write(json.dumps(result['functions']))
+            #     # f.write(json.dumps(result['files']))
+            #     # f.write(json.dumps(result['rootevent']))
+            #     f.write(json.dumps(result))
+            #     f.flush()
             return result
 
     @staticmethod
