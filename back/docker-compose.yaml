@@ -1,0 +1,12 @@
+version: '0.1'
+
+services:
+  master:
+    build: ./services/master
+    command: python __init__.py
+    depends_on: slave
+
+  slave:
+    build: ./services/slave
+    command: python __init__.py
+
