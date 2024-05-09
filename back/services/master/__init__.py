@@ -1,8 +1,11 @@
 import encodings
 import time
+import hashlib
 
 from flask import Flask, g, request
 from flask_cors import CORS
+
+CODE_BASE = './codebase/'
 
 
 def create_app():
@@ -28,13 +31,20 @@ def create_app():
     def upload_code():
         print(request.files)
         file = request.files['file']
-        print(file)
         if file:
-            file_content = file.read()
             file_name = file.filename
+            file_content = file.read()
+            current = str(time.time())
+            current = current.split('.')[0]
+            file_tag = file_name.removesuffix('.py') + '_' + current_time_str
+            processed_file_name = file_tag + '.py'
 
-            print('file_name: ', file_name)
-            print('file_content: ', file_content)
+            with open(CODE_BASE + processed_file_name, 'wb') as f:
+                f.write(file_content)
+                f.flush()
+
+            # print('file_name: ', file_name)
+            # print('file_content: ', file_content)
             # temp_frame = frame.Frame(name=file_name, code=file_content)
         return 'File uploaded successfully', 200
 
