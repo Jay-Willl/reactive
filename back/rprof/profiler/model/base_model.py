@@ -56,6 +56,36 @@ class StackEvent:
         }
 
 
+class StatsEvent:
+    def __init__(self, name, funcname, filename, lineno,
+                 total_time, percentage, primitive_calls, total_calls,
+                 time_per_call):
+        self.name = name
+        self.funcname = funcname
+        self.filename = filename
+        self.lineno = lineno
+        self.total_time = total_time
+        self.percentage = percentage
+        self.primitive_calls = primitive_calls
+        self.total_calls = total_calls
+        self.time_per_call = time_per_call
+
+    def __lt__(self, other):
+        return self.percentage < other.percentage
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "funcname": self.funcname,
+            "filename": self.filename,
+            "lineno": self.lineno,
+            "total_time": self.total_time,
+            "percentage": self.percentage,
+            "primitive_calls": self.primitive_calls,
+            "total_calls": self.total_calls,
+            "time_per_call": self.time_per_call,
+        }
+
 class Metadata:
     def __init__(self):
         self.glob_st = None
@@ -64,9 +94,13 @@ class Metadata:
 
 
 class BaseProfilerResult:
-    def __init__(self):
-        pass
+    def __init__(self, statsview):
+        self.statsview = statsview
 
+    def to_dict(self):
+        return {
+            "statsview": self.statsview
+        }
 
 
 class EventProfilerResult:
@@ -76,9 +110,6 @@ class EventProfilerResult:
         self.listview = listview
         self.stackview = stackview
         self.rootevent = rootevent
-
-    def __repr__(self):
-        return
 
     def to_dict(self):
         return {

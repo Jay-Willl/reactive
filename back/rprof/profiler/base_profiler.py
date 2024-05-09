@@ -6,6 +6,7 @@ import time
 from icecream import ic
 
 from rprof.runner import run_isolately
+from .model.base_model import *
 
 
 class BaseProfiler:
@@ -48,41 +49,42 @@ class BaseProfiler:
             pass
         raw_stats = pstats.Stats(prof)
         stats = self.parse_raw_stats(raw_stats)
-        print(stats)
-        return {
-            'objectName': self.obj_name,
-            # 'callStats': self._transform_stats(prof_stats),
-            'totalTime': raw_stats.total_tt,
-            'primitiveCalls': raw_stats.prim_calls,
-            'totalCalls': raw_stats.total_calls,
-            'timestamp': int(time.time())
-        }
+        # print(stats)
+        return BaseProfiler.warp_info(stats)
 
     @staticmethod
     def parse_raw_stats(raw_stats):
         records = []
         for info, params in raw_stats.stats.items():
             filename, lineno, funcname = info
-            cum_calls, num_calls, time_per_call, cum_time, _ = params
+            total_calls, primitive_calls, time_per_call, total_time, _ = params
             if raw_stats.total_tt == 0:
                 percentage = 0
             else:
-                percentage = round(100 * (cum_time / raw_stats.total_tt), 4)
-            cum_time = round(cum_time, 4)
-            func_name = str('%s @ %s' % (funcname, filename))
+                percentage = round(100 * (total_time / raw_stats.total_tt), 4)
+            # cum_time = round(cum_time, 4)
+            name = str('%s (%s:%s)' % (funcname, filename, lineno))
             records.append((
+                name,  # <module> (dummy_module.py:1)
+                funcname,
                 filename,  # '.../dummy_module.py'
                 lineno,  # 1
-                func_name,  #
-                cum_time,
-                percentage,
-                num_calls,
-                cum_calls,
-                time_per_call,
-                filename
+                total_time,  # cumulative time
+                percentage,  # cumulative time / total time
+                primitive_calls,  #
+                total_calls,  # total
+                time_per_call,  # average time per call
             ))
         return sorted(records, key=operator.itemgetter(4), reverse=True)
 
     @staticmethod
-    def warp_info():
-        pass
+    def warp_info(stats):
+        stats_view = []
+        for stat in stats:
+            temp_statsevent = StatsEvent(
+                *stat
+            )
+            stats_view.append(temp_statsevent)
+        return BaseProfilerResult(
+            statsview=[obj.to_dict() for obj in stats_view]
+        ).to_dict()

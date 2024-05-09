@@ -8,3 +8,4 @@ _PACKAGE_FILENAME = '/Users/blank/repo_pro/project-whitezone/reactive/test_pkg'
 if __name__ == '__main__':
     test_profiler = BaseProfiler(_MODULE_FILENAME)
     prof_stats = test_profiler.run()
+    print(prof_stats)

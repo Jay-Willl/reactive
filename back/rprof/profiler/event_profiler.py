@@ -13,6 +13,7 @@ from .model.calc_model import *
 _TEMP_FILEPATH = '/var/tmp/temp_output.json'
 _SAMPlE_FILEPATH = '/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy.json'
 
+
 class EventProfiler:
     def __init__(self, obj):
         self.obj = obj
@@ -52,7 +53,6 @@ class EventProfiler:
                 traceback.print_exc()
         return EventProfiler.parse_raw_stats()
 
-
     @staticmethod
     def parse_raw_stats():
         with open(_TEMP_FILEPATH, 'r') as f:
@@ -91,9 +91,9 @@ class EventProfiler:
             # ic(stack_view)
             # ic(target_event)
 
-            ic(type(result['listview']))
-            ic(type(result['functions']))
-            ic(type(result['files']))
+            # ic(type(result['listview']))
+            # ic(type(result['functions']))
+            # ic(type(result['files']))
 
             # with open(_SAMPlE_FILEPATH, 'w') as f:
             #     # f.write(json.dumps(result['listview']))
@@ -150,18 +150,25 @@ class EventProfiler:
                 stk[len(stk) - 1].children.append(temp_stackevent)
             stk.append(temp_stackevent)
 
-            if et_heap[0].hash == temp_stackevent.hash:
+            while et_heap[0].hash == temp_stackevent.hash:
                 heapq.heappop(et_heap)
                 stk.pop()
-                level -= 1
+                if len(stk) == 0:
+                    break
                 temp_stackevent = stk[len(stk) - 1]
-                while et_heap[0].hash == temp_stackevent.hash:
-                    heapq.heappop(et_heap)
-                    stk.pop()
-                    if len(stk) == 0:
-                        break
-                    temp_stackevent = stk[len(stk) - 1]
-                    level -= 1
+                level -= 1
+            # if et_heap[0].hash == temp_stackevent.hash:
+            #     heapq.heappop(et_heap)
+            #     stk.pop()
+            #     level -= 1
+            #     temp_stackevent = stk[len(stk) - 1]
+            #     while et_heap[0].hash == temp_stackevent.hash:
+            #         heapq.heappop(et_heap)
+            #         stk.pop()
+            #         if len(stk) == 0:
+            #             break
+            #         temp_stackevent = stk[len(stk) - 1]
+            #         level -= 1
 
         root_event = None
         target_event = None
