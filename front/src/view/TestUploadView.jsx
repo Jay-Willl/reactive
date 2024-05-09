@@ -10,8 +10,8 @@ const TestUploadView = () => {
         name: 'file',
         action: 'http://localhost:5174/upload/test_multiple', // 这是你的服务器端接口地址
         data: {
-            name,  // 从状态中读取的用户名
-            email  // 从状态中读取的邮箱
+            name: name,  // 从状态中读取的用户名
+            email: email  // 从状态中读取的邮箱
         },
         headers: {
             authorization: 'authorization-text',  // 如有需要，可以设置额外的头部信息

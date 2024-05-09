@@ -1,8 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 
 import {Test} from "./Test.jsx";
 import {OverView} from "./view/OverView.jsx";
 import {UploadView} from "./view/UploadView.jsx";
+import {TestUploadView} from "./view/TestUploadView.jsx"
 
 import {stackData} from "./data/stackData.js";
 import {listData} from "./data/listData.js";
@@ -24,15 +25,16 @@ function App() {
                 {/*    </ul>*/}
                 {/*</nav>*/}
                 <Routes>
-                    <Route path="/upload" element={<UploadView />} />
-                    <Route path="/" element={<OverView listData={listData} stackData={stackData} />} />
+                    <Route path="/upload" element={<UploadView/>}/>
+                    {/*<Route path="/upload" element={<TestUploadView/>}/>*/}
+                    <Route path="/" element={<OverView listData={listData} stackData={stackData}/>}/>
                 </Routes>
             </div>
         </Router>
-    // <Router>
-    //     <Routes>
-    //         <Route path="/" element={<UploadView />}/>
-    //         <Route path="/result" />
+        // <Router>
+        //     <Routes>
+        //         <Route path="/" element={<UploadView />}/>
+        //         <Route path="/result" />
         //
         //     </Routes>
         // </Router>
