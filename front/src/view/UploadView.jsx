@@ -92,6 +92,9 @@ function UploadView() {
                     envs: [{}],
                 }}
             >
+                <Form.Item label="Set Name" name="setname">
+                    <Input placeholder="Enter Mission Set Name" />
+                </Form.Item>
                 <Form.List name="envs">
                     {(fields, { add, remove }) => (
                         <div
@@ -144,7 +147,7 @@ function UploadView() {
                                                         </Space>
                                                     ))}
                                                     <Button type="dashed" onClick={() => subOpt.add()} block>
-                                                        + Add Sub Item
+                                                        + Add Library
                                                     </Button>
                                                 </div>
                                             )}
@@ -154,7 +157,7 @@ function UploadView() {
                             ))}
 
                             <Button type="dashed" onClick={() => add()} block>
-                                + Add Item
+                                + Add Environment
                             </Button>
                         </div>
                     )}
