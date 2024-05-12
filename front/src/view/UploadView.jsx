@@ -5,7 +5,6 @@ import {UploadOutlined, CloseOutlined} from '@ant-design/icons';
 import {Col, Row, Space, Divider} from "antd";
 
 
-
 function UploadView() {
     let navigate = useNavigate();
     const [form] = Form.useForm()
@@ -65,14 +64,13 @@ function UploadView() {
     };
 
 
-
     return (
         <div>
             <h1>Upload Your Python File</h1>
             <Upload {...props_odd}>
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                <Button icon={<UploadOutlined/>}>Click to Upload</Button>
             </Upload>
-            <Divider />
+            <Divider/>
             <h1>Upload Your Python File and Specify Envs</h1>
             <Form
                 labelCol={{
@@ -93,10 +91,10 @@ function UploadView() {
                 }}
             >
                 <Form.Item label="Set Name" name="setname">
-                    <Input placeholder="Enter Mission Set Name" />
+                    <Input placeholder="Enter Mission Set Name"/>
                 </Form.Item>
                 <Form.List name="envs">
-                    {(fields, { add, remove }) => (
+                    {(fields, {add, remove}) => (
                         <div
                             style={{
                                 display: 'flex',
@@ -118,7 +116,7 @@ function UploadView() {
                                     }
                                 >
                                     <Form.Item label="Version" name={[field.name, 'version']}>
-                                        <Input />
+                                        <Input/>
                                     </Form.Item>
 
                                     <Form.Item label="Libraries">
@@ -134,10 +132,10 @@ function UploadView() {
                                                     {subFields.map((subField) => (
                                                         <Space key={subField.key}>
                                                             <Form.Item noStyle name={[subField.name, 'library']}>
-                                                                <Input placeholder="library" />
+                                                                <Input placeholder="library"/>
                                                             </Form.Item>
                                                             <Form.Item noStyle name={[subField.name, 'libversion']}>
-                                                                <Input placeholder="libversion" />
+                                                                <Input placeholder="libversion"/>
                                                             </Form.Item>
                                                             <CloseOutlined
                                                                 onClick={() => {
@@ -172,7 +170,7 @@ function UploadView() {
 
             </Form>
             <Upload {...props_multiple}>
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                <Button icon={<UploadOutlined/>}>Click to Upload</Button>
             </Upload>
         </div>
     );

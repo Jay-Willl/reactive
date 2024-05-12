@@ -27,7 +27,7 @@ function Timeline({data}) {
     }
 
     const upperTimeLayout = {
-        x: dimension.width * 0.2,
+        x: dimension.width * 0.1,
         y: 15,
         width: dimension.width * 0.8 - 40,
         height: (dimension.height - 50) / 2,
@@ -36,14 +36,17 @@ function Timeline({data}) {
     }
 
     const bottomTimeLayout = {
-        x: dimension.width * 0.2,
-        y: 15 + upperTimeLayout.height,
+        x: dimension.width * 0.1,
+        // y: 15 + upperTimeLayout.height,
+        // height: (dimension.height - 50) / 2,
+
+        y: 15,
         width: dimension.width * 0.8 - 40,
-        height: (dimension.height - 50) / 2
+        height: (dimension.height - 50)
     }
 
     const axisLayout = {
-        x: dimension.width * 0.2,
+        x: dimension.width * 0.1,
         y: 15,
         width: dimension.width,
         height: 30,
@@ -105,7 +108,7 @@ function Timeline({data}) {
         )
         ctx.strokeRect(
             upperTimeLayout.x, upperTimeLayout.y,
-            upperTimeLayout.width, upperTimeLayout.height + bottomTimeLayout.height
+            upperTimeLayout.width, bottomTimeLayout.height
         )
     }, [dimension]);
 
@@ -115,13 +118,13 @@ function Timeline({data}) {
 
         draw(ctx);
         // redraw scale rect
-        ctx.fillStyle = '#D9E8F5';
-        ctx.fillRect(
-            upperTimeLayout.x,
-            upperTimeLayout.y,
-            scale2x(currentState.reactive.range.scale) - upperTimeLayout.x,
-            upperTimeLayout.height
-        )
+        // ctx.fillStyle = '#D9E8F5';
+        // ctx.fillRect(
+        //     upperTimeLayout.x,
+        //     upperTimeLayout.y,
+        //     scale2x(currentState.reactive.range.scale) - upperTimeLayout.x,
+        //     upperTimeLayout.height
+        // )
         // console.log('scale ' + upperTimeLayout.x + ' ' + scale2x(currentState.reactive.range.scale));
 
         // redraw position rect

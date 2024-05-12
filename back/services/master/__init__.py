@@ -2,22 +2,27 @@ import encodings
 import time
 import hashlib
 import json
-from icecream import ic
 
+import requests
+import zmq
+from icecream import ic
 from flask import Flask, g, request, jsonify
 from flask_cors import CORS
 
 CODE_BASE = './codebase/'
+SLAVE_URL = ''
 
 
 def create_app():
-    app = Flask('sandevistan')
+    app = Flask('reactive-master')
     CORS(app)
     app.config.from_object("config.Config")
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost::5176")
 
     @app.before_request
     def before_request():
-        """Prepare some things before the application handles a request."""
         g.request_start_time = time.time()
         g.request_time = lambda: '%.5fs' % (time.time() - g.request_start_time)
         g.pjax = 'X-PJAX' in request.headers
@@ -26,8 +31,7 @@ def create_app():
     def index():
         for header, value in request.headers.items():
             print(header + " " + value)
-        """Returns the applications index page."""
-        return "don't panic"
+        return "reactive-master"
 
     @app.route('/upload/test', methods=['POST'])
     def upload_code_test():
@@ -43,10 +47,6 @@ def create_app():
             with open(CODE_BASE + processed_file_name, 'wb') as f:
                 f.write(file_content)
                 f.flush()
-
-            # print('file_name: ', file_name)
-            # print('file_content: ', file_content)
-            # temp_frame = frame.Frame(name=file_name, code=file_content)
         return 'File uploaded successfully', 200
 
     @app.route('/upload/odd', methods=['POST'])
@@ -78,11 +78,40 @@ def create_app():
     @app.route('/upload/multiple', methods=['POST'])
     def upload_code_multiple():
         file = request.files['file']
-        data = request.form['form']
+        raw_envs = request.form['form']
         testpayload = request.form['testpayload']
-        print(testpayload)
-        print(data)
-        print(request.form)
+        setname = json.loads(raw_envs)['setname']
+        envs = json.loads(raw_envs)['envs']
+
+        if file:
+            file_name = file.filename
+            file_content = file.read()
+            file_tag = file_name.removesuffix('.py') + '_' + setname
+            processed_file_name = file_tag + '.py'
+            with open(CODE_BASE + processed_file_name, 'wb') as f:
+                f.write(file_content)
+                f.flush()
+
+        file_to_route = {
+            'file': (
+                file.filename,
+                file.stream,
+                file.mimetype
+            )
+        }
+        data_to_route = {
+            'setname': setname
+        }
+
+        response = requests.post(SLAVE_URL, files=file_to_route, data=data_to_route)
+
+        if response.status_code != 200:
+            return jsonify({'error': 'Failed to forward data'}), 500
+
+        socket.send_string('>>>')
+        for env in envs:
+            ic()
+        socket.send_string('<<<')
         return ''
 
     return app
