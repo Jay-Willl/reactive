@@ -1,8 +1,9 @@
+import os
 import zmq
 
 context = zmq.Context()
 socket = context.socket(zmq.PULL)
-address = "tcp://server_test:5557"
+address = os.environ.get('SERVER_CONNECT_URI')
 socket.connect(address)
 print("Listening to {}...".format(address))
 while True:

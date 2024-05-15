@@ -1,0 +1,16 @@
+version: "0.1"
+
+services:
+  master:
+    build: .
+    command: ["python", "-u", "__init__.py"]
+    environment:
+      SERVER_LISTEN_URI: tcp://0.0.0.0:5176
+    networks:
+      reactive-net:
+        aliases:
+          - master
+
+networks:
+  reactive-net:
+    external: True

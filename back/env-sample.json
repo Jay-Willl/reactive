@@ -1,0 +1,30 @@
+{
+    "envs": [
+        {
+            "version": "3.12",
+            "libraries": [
+                {
+                    "library": "numpy",
+                    "libversion": "2.12.3"
+                },
+                {
+                    "library": "numba",
+                    "libversion": "2.11"
+                }
+            ]
+        },
+        {
+            "version": "3.11",
+            "libraries": [
+                {
+                    "library": "numpy",
+                    "libversion": "3.11.2"
+                },
+                {
+                    "library": "numba",
+                    "libversion": "2.12"
+                }
+            ]
+        }
+    ]
+}
