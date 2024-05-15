@@ -13,6 +13,9 @@ CODE_BASE = './codebase/'
 SLAVE_URL = ''
 
 
+def
+
+
 def create_app():
     app = Flask('reactive-master')
     CORS(app)
@@ -57,7 +60,7 @@ def create_app():
             file_content = file.read()
             current = str(time.time())
             current = current.split('.')[0]
-            file_tag = file_name.removesuffix('.py') + '_' + current_time_str
+            file_tag = file_name.removesuffix('.py') + '_' + current
             processed_file_name = file_tag + '.py'
             with open(CODE_BASE + processed_file_name, 'wb') as f:
                 f.write(file_content)
