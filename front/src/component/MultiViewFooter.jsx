@@ -3,25 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Flex, Button, Select, Row, Col} from "antd";
 
-import {editIcicleColor, editDisplayedPlot} from "../store/store.js";
 
-
-function Footer() {
+function MultiViewFooter() {
     const reactiveEvent = useSelector(state => state.reactive);
     const dispatch = useDispatch();
     const divRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
 
-    const handleDisplayedPlot = (value) => {
-        dispatch(editDisplayedPlot(value));
-    }
-
-    const handleIcicleColor = (value) => {
-        dispatch(editIcicleColor(value));
-    }
-
     useLayoutEffect(() => {
-        // console.log("content layout effect");
         if (divRef.current) {
             const style = window.getComputedStyle(divRef.current);
             setDimension({
@@ -73,43 +62,6 @@ function Footer() {
                                 },
                             ]}
                         />
-                        <Select
-                            defaultValue="lucy"
-                            style={{
-                                width: 200,
-                            }}
-                            onChange={handleIcicleColor}
-                            options={[
-                                {
-                                    label: <span>manager</span>,
-                                    title: 'manager',
-                                    options: [
-                                        {
-                                            label: <span>Jack</span>,
-                                            value: 'Jack',
-                                        },
-                                        {
-                                            label: <span>Lucy</span>,
-                                            value: 'Lucy',
-                                        },
-                                    ],
-                                },
-                                {
-                                    label: <span>engineer</span>,
-                                    title: 'engineer',
-                                    options: [
-                                        {
-                                            label: <span>Chloe</span>,
-                                            value: 'Chloe',
-                                        },
-                                        {
-                                            label: <span>Lucas</span>,
-                                            value: 'Lucas',
-                                        },
-                                    ],
-                                },
-                            ]}
-                        />
                     </Flex>
                 </Col>
             </Row>
@@ -117,4 +69,4 @@ function Footer() {
     )
 }
 
-export {Footer};
+export {MultiViewFooter};

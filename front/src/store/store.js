@@ -3,54 +3,79 @@ import {createSlice, configureStore} from "@reduxjs/toolkit";
 const rawStore = createSlice({
     name: 'reactive',
     initialState: {
-        hover: {
-            stack: null
+        overview: {
+            hover: {
+                stack: null
+            },
+            range: {
+                start: 0,
+                end: 0,
+                scale: 0
+            },
+            config: {
+                icicleColor: null,
+                displayedPlot: null
+            }
         },
-        range: {
-            start: 0,
-            end: 0,
-            scale: 0
-        },
-        config: {
-            icicleColor: null,
-            displayedPlot: null
+        multiview: {
+            hover: {
+                stack: null
+            },
+            config: {
+                displayedPlot: null
+            }
         }
     },
     reducers: {
-        selectStack(state, action) {
-            state.hover.stack = action.payload;
+        selectStackOverView(state, action) {
+            state.overview.hover.stack = action.payload;
         },
-        unselectStack(state) {
-            state.hover.stack = null;
+        unselectStackOverView(state) {
+            state.overview.hover.stack = null;
         },
 
         editStart(state, action) {
-            state.range.start = action.payload;
+            state.overview.range.start = action.payload;
         },
         editEnd(state, action) {
-            state.range.end = action.payload;
+            state.overview.range.end = action.payload;
         },
         editScale(state, action) {
-            state.range.scale = action.payload;
+            state.overview.range.scale = action.payload;
         },
 
         editIcicleColor(state, action) {
-            state.config.icicleColor = action.payload;
+            state.overview.config.icicleColor = action.payload;
         },
-        editDisplayedPlot(state, action) {
-            state.config.displayedPlot = action.payload;
+        editDisplayedPlotOverView(state, action) {
+            state.overview.config.displayedPlot = action.payload;
+        },
+
+        selectStackMultiView(state, action) {
+            state.multiview.hover.stack = action.payload;
+        },
+        unselectStackMultiView(state) {
+            state.multiview.hover.stack = null;
+        },
+
+        editDisplayedPlotMultiView(state, action) {
+            state.multiview.config.displayedPlot = action.payload;
         }
     }
 });
 
 const {
-    selectStack,
-    unselectStack,
+    selectStackOverView,
+    unselectStackOverView,
     editStart,
     editEnd,
     editScale,
     editIcicleColor,
-    editDisplayedPlot
+    editDisplayedPlotOverView,
+
+    selectStackMultiView,
+    unselectStackMultiView,
+    editDisplayedPlotMultiView
 } = rawStore.actions;
 
 const reactiveReducer = rawStore.reducer;
@@ -61,12 +86,15 @@ const reactiveStore = configureStore({
 });
 
 export {
-    selectStack,
-    unselectStack,
+    selectStackOverView,
+    unselectStackOverView,
     editStart,
     editEnd,
     editScale,
     editIcicleColor,
-    editDisplayedPlot
+    editDisplayedPlotOverView,
+    selectStackMultiView,
+    unselectStackMultiView,
+    editDisplayedPlotMultiView
 };
 export {reactiveStore, reactiveReducer};

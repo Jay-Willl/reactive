@@ -4,7 +4,7 @@ import {useUpdateLayoutEffect, useCreation} from "ahooks";
 import {useDispatch, useSelector} from "react-redux";
 
 import {reactiveStore} from "../store/store.js";
-import {editStart, editEnd, editScale, selectStack, unselectStack} from "../store/store.js";
+import {editStart, editEnd, editScale, selectStackOverView, unselectStackOverView} from "../store/store.js";
 
 /**
  * Bidirectional translation:
@@ -13,7 +13,7 @@ import {editStart, editEnd, editScale, selectStack, unselectStack} from "../stor
  */
 
 function Icicle({data, layout}) {
-    const reactiveEvent = useSelector(state => state.reactive);
+    const reactiveEvent = useSelector(state => state.reactive.overview);
     const dispatch = useDispatch();
 
     const divRef = useRef(null);
@@ -228,7 +228,7 @@ function Icicle({data, layout}) {
 
     const handleOutsideModify = useCallback(() => {
         const currentState = reactiveStore.getState();
-        let tempBox = range2currentBox([currentState.reactive.range.start, currentState.reactive.range.end], metadata.current.totalBox);
+        let tempBox = range2currentBox([currentState.reactive.overview.range.start, currentState.reactive.overview.range.end], metadata.current.totalBox);
 
         setViewBoxValWithoutDispatch(tempBox[0], 0, "abs");
         setViewBoxValWithoutDispatch(tempBox[1] - tempBox[0], 2, "abs");
@@ -268,10 +268,10 @@ function Icicle({data, layout}) {
             .on("mouseover", function (d, i) {
                 // console.log(i);
                 // console.log(d);
-                dispatch(selectStack(i))
+                dispatch(selectStackOverView(i))
             })
             .on("mouseout", function () {
-                dispatch(unselectStack())
+                dispatch(unselectStackOverView())
             });
     }
 

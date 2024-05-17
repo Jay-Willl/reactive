@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {CodeBlock} from "./CodeBlock.jsx";
 
 function Tooltip({children}) {
-    const hoverEvent = useSelector(state => state.hover);
+    const hoverEvent = useSelector(state => state.reactive.overview);
     console.log(hoverEvent);
 
     if (!hoverEvent) {

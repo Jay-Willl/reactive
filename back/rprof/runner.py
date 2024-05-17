@@ -41,5 +41,6 @@ def run_isolately(func, *args, **kwargs):
     process.join()
     exc = process.exception
     if exc:
-        pass
+        import traceback
+        traceback.print_exc()
     return process.output

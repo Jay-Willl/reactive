@@ -2,8 +2,8 @@ import {useState, useLayoutEffect, useRef, useEffect, useMemo, useCallback} from
 import {useSelector, useDispatch} from "react-redux";
 import {Card, Col, Row, Statistic} from "antd";
 
-function Sider() {
-    const reactiveEvent = useSelector(state => state.reactive);
+function OverViewSider() {
+    const reactiveEvent = useSelector(state => state.reactive.overview);
     const dispatch = useDispatch();
 
     const divRef = useRef(null);
@@ -154,4 +154,4 @@ function Sider() {
     )
 }
 
-export {Sider};
+export {OverViewSider};

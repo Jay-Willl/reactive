@@ -4,11 +4,11 @@ import {useUpdateLayoutEffect} from "ahooks";
 import {useDispatch, useSelector} from "react-redux";
 
 import {reactiveStore} from "../store/store.js";
-import {editStart, editEnd, editScale, selectStack, unselectStack} from "../store/store.js";
+import {editStart, editEnd, editScale, selectStackOverView, unselectStackOverView} from "../store/store.js";
 
 
 function Timeline({data}) {
-    const reactiveEvent = useSelector(state => state.reactive);
+    const reactiveEvent = useSelector(state => state.reactive.overview);
     const dispatch = useDispatch();
 
     const canvasRef = useRef(null);
@@ -130,9 +130,9 @@ function Timeline({data}) {
         // redraw position rect
         ctx.fillStyle = '#91BED4';
         ctx.fillRect(
-            scale2x(currentState.reactive.range.start / 100),
+            scale2x(currentState.reactive.overview.range.start / 100),
             bottomTimeLayout.y,
-            scale2x(currentState.reactive.range.end / 100) - scale2x(currentState.reactive.range.start / 100),
+            scale2x(currentState.reactive.overview.range.end / 100) - scale2x(currentState.reactive.overview.range.start / 100),
             bottomTimeLayout.height
         )
         // console.log('position ' + scale2x(currentState.reactive.range.start / 100) + ' ' + scale2x(currentState.reactive.range.end / 100));

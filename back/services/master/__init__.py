@@ -13,9 +13,6 @@ CODE_BASE = './codebase/'
 SLAVE_URL = ''
 
 
-def
-
-
 def create_app():
     app = Flask('reactive-master')
     CORS(app)

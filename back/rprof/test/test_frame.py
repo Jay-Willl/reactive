@@ -1,4 +1,5 @@
 from icecream import ic
+import json
 
 from rprof.frame import Frame
 
@@ -7,7 +8,9 @@ _PACKAGE_FILENAME = '/Users/blank/repo_pro/project-whitezone/reactive/test_pkg'
 
 if __name__ == '__main__':
     test_frame = Frame(_MODULE_FILENAME)
-    result = test_frame.run()
+    result = json.dumps(test_frame.run(), indent=4)
+    with open("/Users/blank/repo_pro/project-whitezone/reactive/back/sample.json", 'wb') as f:
+        f.write(result.encode('utf-8'))
     print(result)
 
 

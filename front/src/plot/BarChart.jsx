@@ -3,9 +3,9 @@ import {useCallback, useMemo} from "react";
 import {useCreation} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
 
-function CascadeTreemap() {
+function BarChart() {
 
 
 }
 
-export {CascadeTreemap};
+export {BarChart};

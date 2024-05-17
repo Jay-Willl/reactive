@@ -3,8 +3,8 @@ import {useSelector, useDispatch} from "react-redux";
 
 import {Icicle} from "../plot/Icicle.jsx";
 
-function Content({stackData, listData}) {
-    const hoverEvent = useSelector(state => state.hover);
+function OverViewContent({stackData, listData}) {
+    const reactiveEvent = useSelector(state => state.reactive.overview);
     const dispatch = useDispatch();
 
     const divRef = useRef(null);
@@ -87,4 +87,4 @@ function Content({stackData, listData}) {
     )
 }
 
-export {Content};
+export {OverViewContent};
