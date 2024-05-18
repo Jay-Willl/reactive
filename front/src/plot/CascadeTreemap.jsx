@@ -2,6 +2,9 @@ import * as d3 from 'd3';
 import {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {useCreation, useUpdateLayoutEffect} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
+import {selectStackMultiView, unselectStackMultiView} from "../store/store.js";
+
+import {Popover} from "antd";
 
 function CascadeTreemap({data}) {
     const reactiveEvent = useSelector(state => state.reactive);
@@ -81,6 +84,16 @@ function CascadeTreemap({data}) {
             .attr("fill", d => color(d.height))
             .attr("width", d => d.x1 - d.x0)
             .attr("height", d => d.y1 - d.y0)
+
+        svg.selectAll("rect")
+            .on("mouseover", function (d, i) {
+                d3.select(this).style("fill", "red");
+                dispatch(selectStackMultiView(i.data))
+            })
+            .on("mouseout", function () {
+                d3.select(this).style("fill", d => color(d.height));
+                dispatch(unselectStackMultiView())
+            });
 
     }, [treemapLayout, treemap]);
 

@@ -1,7 +1,8 @@
 import * as d3 from 'd3';
 import {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
-import {useCreation, useUpdateLayoutEffect} from "ahooks";
+import {useCreation, useUpdateLayoutEffect, useMouse} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
+import {reactiveStore, selectStackMultiView, unselectStackMultiView} from "../store/store.js";
 
 function BarChart({data}) {
     const reactiveEvent = useSelector(state => state.reactive);
@@ -10,6 +11,34 @@ function BarChart({data}) {
     const divRef = useRef(null);
     const svgRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
+
+    const mouse = useMouse();
+    const windowSize = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+    }
+
+    const decideDirection = () => {
+        if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
+
+        } else {
+
+        }
+    }
 
     const expectedLayout = useMemo(() => {
         return {
@@ -38,8 +67,7 @@ function BarChart({data}) {
             .domain(data.map(d => d.name))
             .range([barchartLayout.y, barchartLayout.height])
 
-        const format = xAxis.tickFormat('.1f%');
-
+        const format = d3.format(".2%");
 
         const svg = d3.select(svgRef.current);
         svgRef.current.setAttribute("width", barchartLayout.width);
@@ -72,7 +100,7 @@ function BarChart({data}) {
             .attr("y", (d) => yAxis(d.name) + expectedLayout.rectHeight / 2)
             .attr("dy", "0.35em")
             .attr("dx", -4)
-            .text((d) => format(d.percentage))
+            .text((d) => format(d.percentage / 100))
             .call((text) => text.filter(d => xAxis(d.percentage) - xAxis(0) < 20) // short bars
                 .attr("dx", +4)
                 .attr("fill", "black")
@@ -82,6 +110,17 @@ function BarChart({data}) {
             .attr("transform", `translate(0,0)`)
             .call(d3.axisTop(xAxis).ticks(barchartLayout.width / 80, "%"))
             .call(g => g.select(".domain").remove());
+
+        svg.selectAll("rect")
+            .on("mouseover", function (d, i) {
+                d3.select(this).style("fill", "red");
+                dispatch(selectStackMultiView(i));
+                // console.log(reactiveStore.getState().reactive.multiview.hover.stack)
+            })
+            .on("mouseout", function () {
+                d3.select(this).style("fill", "steelblue");
+                dispatch(unselectStackMultiView());
+            });
 
     }, [dimension]);
 
