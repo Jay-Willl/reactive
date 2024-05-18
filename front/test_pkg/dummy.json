@@ -1,0 +1,369 @@
+{
+    "functions": {
+        "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)": [
+            "/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py",
+            3
+        ],
+        "<module> (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:1)": [
+            "/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py",
+            1
+        ]
+    },
+    "files": {
+        "/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py": [
+            "# from icecream import ic\n\ndef dummy_fib(n):\n    if n < 2:\n        return n\n    return dummy_fib(n - 1) + dummy_fib(n - 2)\n\ndummy_fib(5)\n# ic(dummy_fib(5))\n",
+            9
+        ]
+    },
+    "listview": [
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 0.0,
+            "et": 12.260009765625,
+            "value": 12.26,
+            "name": "builtins.exec",
+            "hash": "f4aac914c969efd5f311cbfa68aaba1dd75bdea1b6cc4c734446b5c99f1e2431"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 3.0,
+            "et": 12.239990234375,
+            "value": 9.24,
+            "name": "<module> (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:1)",
+            "hash": "c1e049c43d696d3cb882051cd4e9e742231d6948211c6bcf59886723efc6042f"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 3.02001953125,
+            "et": 12.22003173828125,
+            "value": 9.2,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "b803eb25711143928434f59bcb8bc8302ba0af1a0095f8236a58d757fa5b2c70"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 4.0,
+            "et": 12.0,
+            "value": 8.0,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "70f2081d98eb0f773444c5295680fae2a63699a9418fcbcbf79e11db5b2307f0"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 4.02001953125,
+            "et": 11.10003662109375,
+            "value": 7.08,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "a83e77b74d2ca033422915ffe9cf2857d43f0c3eca818f5c56507f991d218a09"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 4.03997802734375,
+            "et": 11.03997802734375,
+            "value": 7.0,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "e93ac4fe4873ae96f7b910aa20cb3c821c8252d2e245a4bbe4128a75310e16c9"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 4.05999755859375,
+            "et": 4.08001708984375,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "211db4bd1ed2059f9178106740d0dca55821fbedab7865d492f1d66600968f51"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 11.0,
+            "et": 11.02001953125,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "25f1c1b66d25ca3b1a2805ed3dc5e3ac890255fafb15953a6bd36152337574cf"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 11.05999755859375,
+            "et": 11.08001708984375,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "bb5ac8963a303b724361ffa4bde9b1ae319bb896348718a906549831cb79ebc0"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 11.1199951171875,
+            "et": 11.219970703125,
+            "value": 0.1,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "6bf707769ca67c5f73a06237b3cddeb55b051f3905f7b52ce9d4f1100f5d41ad"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 11.1400146484375,
+            "et": 11.1600341796875,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "504f03c2c35631de4e15764d08bd17929e9699287afcaaa732f581f7b9b433d9"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 11.17999267578125,
+            "et": 11.20001220703125,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "1ca470fb8ab02db8b4f2cecebadeeb44cc5dba70cd47c9b8e099836e43318756"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 12.02001953125,
+            "et": 12.20001220703125,
+            "value": 0.18,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "1fced374d49f324f03307344f2175368514e278a759c70e7c0db70accb9acb4f"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 12.03997802734375,
+            "et": 12.13995361328125,
+            "value": 0.1,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "a588b64cd243de22513cd049d3cbd9bef727a0b3b45fb3887fe41c48d28bf6bb"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 12.05999755859375,
+            "et": 12.08001708984375,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "ed270f02bbb61612704e5b3d47ad6996965f8d2239f8c5750e206e0ad66e2aa8"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 12.0999755859375,
+            "et": 12.1199951171875,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "4343af0341b8be299cc2d1d3b37f1e5b92e622951f749d089fe58cda469c3963"
+        },
+        {
+            "pid": 44498,
+            "tid": 1502142,
+            "st": 12.15997314453125,
+            "et": 12.17999267578125,
+            "value": 0.02,
+            "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+            "hash": "208ca950267f623aad3c5881b2deb2adbe8db92ee56eeaa4dae3374a4e860af1"
+        }
+    ],
+    "stackview": {
+        "pid": 44498,
+        "tid": 1502142,
+        "st": 0.0,
+        "et": 12.260009765625,
+        "dur": 12.26,
+        "name": "builtins.exec",
+        "hash": "f4aac914c969efd5f311cbfa68aaba1dd75bdea1b6cc4c734446b5c99f1e2431",
+        "level": 0,
+        "children": [
+            {
+                "pid": 44498,
+                "tid": 1502142,
+                "st": 3.0,
+                "et": 12.239990234375,
+                "dur": 9.24,
+                "name": "<module> (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:1)",
+                "hash": "c1e049c43d696d3cb882051cd4e9e742231d6948211c6bcf59886723efc6042f",
+                "level": 1,
+                "children": [
+                    {
+                        "pid": 44498,
+                        "tid": 1502142,
+                        "st": 3.02001953125,
+                        "et": 12.22003173828125,
+                        "dur": 9.2,
+                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                        "hash": "b803eb25711143928434f59bcb8bc8302ba0af1a0095f8236a58d757fa5b2c70",
+                        "level": 2,
+                        "children": [
+                            {
+                                "pid": 44498,
+                                "tid": 1502142,
+                                "st": 4.0,
+                                "et": 12.0,
+                                "dur": 8.0,
+                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                "hash": "70f2081d98eb0f773444c5295680fae2a63699a9418fcbcbf79e11db5b2307f0",
+                                "level": 3,
+                                "children": [
+                                    {
+                                        "pid": 44498,
+                                        "tid": 1502142,
+                                        "st": 4.02001953125,
+                                        "et": 11.10003662109375,
+                                        "dur": 7.08,
+                                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                        "hash": "a83e77b74d2ca033422915ffe9cf2857d43f0c3eca818f5c56507f991d218a09",
+                                        "level": 4,
+                                        "children": [
+                                            {
+                                                "pid": 44498,
+                                                "tid": 1502142,
+                                                "st": 4.03997802734375,
+                                                "et": 11.03997802734375,
+                                                "dur": 7.0,
+                                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                "hash": "e93ac4fe4873ae96f7b910aa20cb3c821c8252d2e245a4bbe4128a75310e16c9",
+                                                "level": 5,
+                                                "children": [
+                                                    {
+                                                        "pid": 44498,
+                                                        "tid": 1502142,
+                                                        "st": 4.05999755859375,
+                                                        "et": 4.08001708984375,
+                                                        "dur": 0.02,
+                                                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                        "hash": "211db4bd1ed2059f9178106740d0dca55821fbedab7865d492f1d66600968f51",
+                                                        "level": 6,
+                                                        "children": []
+                                                    },
+                                                    {
+                                                        "pid": 44498,
+                                                        "tid": 1502142,
+                                                        "st": 11.0,
+                                                        "et": 11.02001953125,
+                                                        "dur": 0.02,
+                                                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                        "hash": "25f1c1b66d25ca3b1a2805ed3dc5e3ac890255fafb15953a6bd36152337574cf",
+                                                        "level": 6,
+                                                        "children": []
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "pid": 44498,
+                                                "tid": 1502142,
+                                                "st": 11.05999755859375,
+                                                "et": 11.08001708984375,
+                                                "dur": 0.02,
+                                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                "hash": "bb5ac8963a303b724361ffa4bde9b1ae319bb896348718a906549831cb79ebc0",
+                                                "level": 5,
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "pid": 44498,
+                                        "tid": 1502142,
+                                        "st": 11.1199951171875,
+                                        "et": 11.219970703125,
+                                        "dur": 0.1,
+                                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                        "hash": "6bf707769ca67c5f73a06237b3cddeb55b051f3905f7b52ce9d4f1100f5d41ad",
+                                        "level": 4,
+                                        "children": [
+                                            {
+                                                "pid": 44498,
+                                                "tid": 1502142,
+                                                "st": 11.1400146484375,
+                                                "et": 11.1600341796875,
+                                                "dur": 0.02,
+                                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                "hash": "504f03c2c35631de4e15764d08bd17929e9699287afcaaa732f581f7b9b433d9",
+                                                "level": 5,
+                                                "children": []
+                                            },
+                                            {
+                                                "pid": 44498,
+                                                "tid": 1502142,
+                                                "st": 11.17999267578125,
+                                                "et": 11.20001220703125,
+                                                "dur": 0.02,
+                                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                "hash": "1ca470fb8ab02db8b4f2cecebadeeb44cc5dba70cd47c9b8e099836e43318756",
+                                                "level": 5,
+                                                "children": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "pid": 44498,
+                                "tid": 1502142,
+                                "st": 12.02001953125,
+                                "et": 12.20001220703125,
+                                "dur": 0.18,
+                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                "hash": "1fced374d49f324f03307344f2175368514e278a759c70e7c0db70accb9acb4f",
+                                "level": 3,
+                                "children": [
+                                    {
+                                        "pid": 44498,
+                                        "tid": 1502142,
+                                        "st": 12.03997802734375,
+                                        "et": 12.13995361328125,
+                                        "dur": 0.1,
+                                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                        "hash": "a588b64cd243de22513cd049d3cbd9bef727a0b3b45fb3887fe41c48d28bf6bb",
+                                        "level": 4,
+                                        "children": [
+                                            {
+                                                "pid": 44498,
+                                                "tid": 1502142,
+                                                "st": 12.05999755859375,
+                                                "et": 12.08001708984375,
+                                                "dur": 0.02,
+                                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                "hash": "ed270f02bbb61612704e5b3d47ad6996965f8d2239f8c5750e206e0ad66e2aa8",
+                                                "level": 5,
+                                                "children": []
+                                            },
+                                            {
+                                                "pid": 44498,
+                                                "tid": 1502142,
+                                                "st": 12.0999755859375,
+                                                "et": 12.1199951171875,
+                                                "dur": 0.02,
+                                                "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                                "hash": "4343af0341b8be299cc2d1d3b37f1e5b92e622951f749d089fe58cda469c3963",
+                                                "level": 5,
+                                                "children": []
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "pid": 44498,
+                                        "tid": 1502142,
+                                        "st": 12.15997314453125,
+                                        "et": 12.17999267578125,
+                                        "dur": 0.02,
+                                        "name": "dummy_fib (/Users/blank/repo_pro/project-whitezone/reactive/test_pkg/dummy_module.py:3)",
+                                        "hash": "208ca950267f623aad3c5881b2deb2adbe8db92ee56eeaa4dae3374a4e860af1",
+                                        "level": 4,
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
