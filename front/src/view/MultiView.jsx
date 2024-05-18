@@ -13,22 +13,22 @@ function MultiView(){
             setResult(JSON.parse(result));
         }
 
-        const interval = setInterval(() => {
-            console.log('result: ', getResult());
-        }, 3000);
-
-        return () => {
-            clearInterval(interval);
-        };
+        // const interval = setInterval(() => {
+        //     console.log('result: ', getResult());
+        // }, 3000);
+        //
+        // return () => {
+        //     clearInterval(interval);
+        // };
     }, []);
 
 
     return (
         <Row gutter={[0, 0]}>
-            <Col className="multiview-content" id="multiview-content">
+            <Col className="multiview-content" id="multiview-content" span={24}>
                 <MultiViewContent />
             </Col>
-            <Col className="multiview-footer" id="multiview-footer">
+            <Col className="multiview-footer" id="multiview-footer" span={24}>
                 <MultiViewFooter />
             </Col>
         </Row>

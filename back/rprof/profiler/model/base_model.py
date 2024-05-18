@@ -86,6 +86,7 @@ class StatsEvent:
             "time_per_call": self.time_per_call,
         }
 
+
 class Metadata:
     def __init__(self):
         self.glob_st = None

@@ -42,7 +42,7 @@ function MultiViewFooter() {
                             style={{
                                 width: 160,
                             }}
-                            onChange={handleDisplayedPlot}
+                            // onChange={handleDisplayedPlot}
                             options={[
                                 {
                                     value: 'Icicle',
