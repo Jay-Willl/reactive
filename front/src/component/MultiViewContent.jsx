@@ -8,8 +8,7 @@ import '../less/main.less';
 import {CascadeTreemap} from "../plot/CascadeTreemap.jsx";
 import {BarChart} from "../plot/BarChart.jsx";
 
-import {statsData} from "../data/statsData.js";
-import {stackData} from "../data/stackData.js";
+import {sample} from "../data/sample.js";
 
 
 function MultiViewCell({pos, displayedPlot, data, layout}) {
@@ -23,7 +22,7 @@ function MultiViewCell({pos, displayedPlot, data, layout}) {
                     height: "100%",
                 }}
             >
-                <CascadeTreemap data={stackData.stackevents} />
+                <CascadeTreemap data={sample.stackview} />
             </div>
         )
     } else {
@@ -36,7 +35,7 @@ function MultiViewCell({pos, displayedPlot, data, layout}) {
                     height: "100%",
                 }}
             >
-                <BarChart data={statsData.statsview}/>
+                <BarChart data={sample.statsview}/>
             </div>
         )
     }

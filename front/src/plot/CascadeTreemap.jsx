@@ -4,6 +4,9 @@ import {useCreation, useUpdateLayoutEffect} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
 
 function CascadeTreemap({data}) {
+    const reactiveEvent = useSelector(state => state.reactive);
+    const dispatch = useDispatch();
+
     const divRef = useRef(null);
     const svgRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
@@ -20,12 +23,16 @@ function CascadeTreemap({data}) {
     }, [dimension]);
 
     const color = useCreation(() => {
-        return d3.scaleSequential([20, 0], d3.interpolateMagma);
+        return d3.scaleOrdinal(d3.schemeCategory10);
+        // return d3.scaleSequential([20, 0], d3.interpolateMagma);
     });
 
     const hierarchy = useCreation(() => {
         return d3.hierarchy(data)
-            .sum(d => d.value)
+            .sum(d => {
+                // console.log(d)
+                return d.dur
+            })
             .sort((a, b) => a.value - b.value)
     }, [data]);
 
@@ -39,16 +46,15 @@ function CascadeTreemap({data}) {
     }, [hierarchy, treemapLayout])
 
     const draw = useCallback(() => {
-        const root = treemap(data);
+        let root = treemap(data);
+        // const root = treemap(data).leaves().filter(d => (d.x1 - d.x0) >= 1 && (d.y1 - d.y0) >= 3);
         const format = d3.format(",d");
-
         const svg = d3.select(svgRef.current);
         svgRef.current.setAttribute("width", treemapLayout.width);
         svgRef.current.setAttribute("height", treemapLayout.height);
         svgRef.current.setAttribute("viewBox", `0 0 ${treemapLayout.width} ${treemapLayout.height}`);
 
         svg.append("filter")
-            // .attr("id", shadow.id)
             .append("feDropShadow")
             .attr("flood-opacity", 0.3)
             .attr("dx", 0)
@@ -57,10 +63,8 @@ function CascadeTreemap({data}) {
         const node = svg.selectAll("g")
             .data(d3.group(root, d => d.height))
             .join("g")
-            // .attr("filter", shadow)
             .selectAll("g")
             .data(d => {
-                // console.log(d);
                 return d[1];
             })
             .join("g")

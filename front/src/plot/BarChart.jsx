@@ -4,6 +4,9 @@ import {useCreation, useUpdateLayoutEffect} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
 
 function BarChart({data}) {
+    const reactiveEvent = useSelector(state => state.reactive);
+    const dispatch = useDispatch();
+
     const divRef = useRef(null);
     const svgRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});

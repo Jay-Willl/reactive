@@ -16,7 +16,7 @@ class Result:
     def to_dict(self):
         return {
             "functions": self.functions,
-            "files": self.files,
+            # "files": self.files,
             "listview": self.listview,
             "stackview": self.stackview,
             "statsview": self.statsview
