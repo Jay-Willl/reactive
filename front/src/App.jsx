@@ -15,9 +15,9 @@ function App() {
 
     return (
         <Provider store={reactiveStore}>
-            {/*<CascadeTreemap data={sample.stackview}/>*/}
-            {/*<BarChart data={sample.statsview}/>*/}
-            <MultiView />
+            <CascadeTreemap data={sample.stackview}/>
+            <BarChart data={sample.statsview}/>
+            {/*<MultiView />*/}
             {/*<OverView listData={listData} stackData={stackData} />*/}
             {/*<Router>*/}
             {/*    <div>*/}

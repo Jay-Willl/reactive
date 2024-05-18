@@ -23,15 +23,18 @@ function CascadeTreemap({data}) {
     }, [dimension]);
 
     const color = useCreation(() => {
-        return d3.scaleOrdinal(d3.schemeCategory10);
-        // return d3.scaleSequential([20, 0], d3.interpolateMagma);
+        // return d3.scaleOrdinal(d3.schemeCategory10);
+        return d3.scaleSequential([20, 0], d3.interpolateMagma);
     });
+
+    const logTransform = (d) => {
+        return Math.log1p(d);
+    }
 
     const hierarchy = useCreation(() => {
         return d3.hierarchy(data)
             .sum(d => {
-                // console.log(d)
-                return d.dur
+                return logTransform(d.dur)
             })
             .sort((a, b) => a.value - b.value)
     }, [data]);
