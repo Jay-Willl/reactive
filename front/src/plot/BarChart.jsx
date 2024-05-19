@@ -3,6 +3,8 @@ import {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {useCreation, useUpdateLayoutEffect, useMouse} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
 import {reactiveStore, selectStackMultiView, unselectStackMultiView} from "../store/store.js";
+import {Popover} from "antd";
+import {PopoverContent} from "../component/PopoverContent.jsx";
 
 function BarChart({data}) {
     const reactiveEvent = useSelector(state => state.reactive);
@@ -12,33 +14,26 @@ function BarChart({data}) {
     const svgRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
 
+    const [visible, setVisible] = useState(false);
+    const [eventcontent, setEventcontent] = useState(null);
+
     const mouse = useMouse();
     const windowSize = {
         width: window.innerWidth,
         height: window.innerHeight,
     }
 
-    const decideDirection = () => {
-        if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else if (mouse.clientX <= windowSize.width / 3 && mouse.clientY <= windowSize.height / 3) {
-
-        } else {
-
-        }
-    }
+    // const decideDirection = () => {
+    //     if (mouse.clientX <= windowSize.width / 2 && mouse.clientY <= windowSize.height / 2) {
+    //         return "bottomLeft"
+    //     } else if (mouse.clientX <= windowSize.width / 2 && mouse.clientY >= windowSize.height / 2) {
+    //         return "topLeft"
+    //     } else if (mouse.clientX >= windowSize.width / 2 && mouse.clientY <= windowSize.height / 2) {
+    //         return "bottomRight"
+    //     } else if (mouse.clientX >= windowSize.width / 2 && mouse.clientY >= windowSize.height / 2) {
+    //         return "topRight"
+    //     }
+    // }
 
     const expectedLayout = useMemo(() => {
         return {
@@ -112,14 +107,17 @@ function BarChart({data}) {
             .call(g => g.select(".domain").remove());
 
         svg.selectAll("rect")
-            .on("mouseover", function (d, i) {
+            .on("mouseenter", function (d, i) {
                 d3.select(this).style("fill", "red");
                 dispatch(selectStackMultiView(i));
+                setVisible(true)
+                setEventcontent(i);
                 // console.log(reactiveStore.getState().reactive.multiview.hover.stack)
             })
             .on("mouseout", function () {
                 d3.select(this).style("fill", "steelblue");
                 dispatch(unselectStackMultiView());
+                setVisible(false)
             });
 
     }, [dimension]);
@@ -155,6 +153,17 @@ function BarChart({data}) {
                 }}
             >
             </svg>
+            <div
+
+            >
+                <Popover
+                    content={<PopoverContent parentPlot='BarChart' eventcontent={eventcontent}/>}
+                    open={visible}
+                    arrow={false}
+                    // getPopupContainer={() => document.body}
+                >
+                </Popover>
+            </div>
         </div>
     )
 
