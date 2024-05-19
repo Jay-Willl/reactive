@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
-import {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {useCreation, useUpdateLayoutEffect, useMouse} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
-import {reactiveStore, selectStackMultiView, unselectStackMultiView} from "../store/store.js";
+import {reactiveStore, selectStackMultiView, unselectStackMultiView, selectFollowMultiView, unselectFollowMultiView} from "../store/store.js";
 
 import {Popover} from "antd";
 import {PopoverContent} from "../component/PopoverContent.jsx";
@@ -17,6 +17,7 @@ function BarChart({data}) {
 
     const [visible, setVisible] = useState(false);
     const [eventContent, setEventContent] = useState(null);
+    const [followContent, setFollowContent] = useState(null);
 
     const mouse = useMouse();
     const windowSize = {
@@ -119,9 +120,41 @@ function BarChart({data}) {
                 d3.select(this).style("fill", "steelblue");
                 dispatch(unselectStackMultiView());
                 setVisible(false)
+                setEventContent(null);
             });
 
     }, [dimension]);
+
+    useEffect(() => {
+        // console.log(reactiveEvent);
+        let tempStack = reactiveEvent.multiview.hover.stack;
+        if (tempStack === null) {
+            d3.selectAll("rect")
+                .style("fill", "steelblue")
+            dispatch(unselectFollowMultiView());
+            setFollowContent(null);
+        } else {
+            d3.selectAll("rect")
+                .filter(d => {
+                    return d.funcname === tempStack.funcname;
+                })
+                .filter(d => {
+                    // console.log(d)
+                    return true;
+                })
+                // .call(() => {
+                //     console.log(this)
+                // })
+                .style("fill", "orange")
+                .filter((d) => {
+                    console.log(d)
+                    dispatch(selectFollowMultiView(d));
+                    setFollowContent(d);
+                    return true;
+                })
+        }
+
+    }, [reactiveEvent.multiview]);
 
     useLayoutEffect(() => {
         if (divRef.current) {
@@ -158,7 +191,7 @@ function BarChart({data}) {
 
             >
                 <Popover
-                    content={<PopoverContent parentPlot='BarChart' eventContent={eventContent}/>}
+                    content={<PopoverContent parentPlot='BarChart' eventContent={eventContent} followContent={followContent}/>}
                     open={visible}
                     arrow={false}
                 >

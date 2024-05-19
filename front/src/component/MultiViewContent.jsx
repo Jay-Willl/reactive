@@ -12,9 +12,35 @@ import {sample} from "../data/sample.js";
 
 
 function MultiViewCell({pos, displayedPlot, data, layout}) {
-    if (pos === 0) {
+    // if (pos === 0) {
+    //     return (
+    //         <div
+    //             style={{
+    //                 width: "100%",
+    //                 height: "100%",
+    //             }}
+    //         >
+    //             <CascadeTreemap data={sample.stackview} />
+    //         </div>
+    //     )
+    // } else {
+    //     return (
+    //         <div
+    //             style={{
+    //                 width: "100%",
+    //                 height: "100%",
+    //             }}
+    //         >
+    //             <BarChart data={sample.statsview}/>
+    //         </div>
+    //     )
+    // }
+
+    if (displayedPlot !== 'CascadeTreeMap') {
         return (
             <div
+                id="multiview-cell-1"
+                className="multiview-cell"
                 style={{
                     width: "100%",
                     height: "100%",
@@ -26,43 +52,17 @@ function MultiViewCell({pos, displayedPlot, data, layout}) {
     } else {
         return (
             <div
+                id="multiview-cell-2"
+                className="multiview-cell"
                 style={{
                     width: "100%",
                     height: "100%",
                 }}
             >
-                <BarChart data={sample.statsview}/>
+                <BarChart data={sample.statsview} />
             </div>
         )
     }
-
-    // if (displayedPlot === 'CascadeTreeMap') {
-    //     return (
-    //         <div
-    //             id="multiview-cell-1"
-    //             className="multiview-cell"
-    //             style={{
-    //                 width: "100%",
-    //                 height: "100%",
-    //             }}
-    //         >
-    //             <CascadeTreemap data={stackData.stackevents} />
-    //         </div>
-    //     )
-    // } else {
-    //     return (
-    //         <div
-    //             id="multiview-cell-2"
-    //             className="multiview-cell"
-    //             style={{
-    //                 width: "100%",
-    //                 height: "100%",
-    //             }}
-    //         >
-    //             <BarChart data={statsData.statsview}/>
-    //         </div>
-    //     )
-    // }
 }
 
 

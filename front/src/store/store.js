@@ -19,7 +19,8 @@ const rawStore = createSlice({
         },
         multiview: {
             hover: {
-                stack: null
+                stack: null,
+                follow: null
             },
             config: {
                 displayedPlot: null
@@ -57,6 +58,12 @@ const rawStore = createSlice({
         unselectStackMultiView(state) {
             state.multiview.hover.stack = null;
         },
+        selectFollowMultiView(state, action) {
+            state.multiview.hover.follow = action.payload;
+        },
+        unselectFollowMultiView(state) {
+            state.multiview.hover.follow = null;
+        },
 
         editDisplayedPlotMultiView(state, action) {
             state.multiview.config.displayedPlot = action.payload;
@@ -75,6 +82,8 @@ const {
 
     selectStackMultiView,
     unselectStackMultiView,
+    selectFollowMultiView,
+    unselectFollowMultiView,
     editDisplayedPlotMultiView
 } = rawStore.actions;
 
@@ -95,6 +104,8 @@ export {
     editDisplayedPlotOverView,
     selectStackMultiView,
     unselectStackMultiView,
-    editDisplayedPlotMultiView
+    selectFollowMultiView,
+    unselectFollowMultiView,
+    editDisplayedPlotMultiView,
 };
 export {reactiveStore, reactiveReducer};

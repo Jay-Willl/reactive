@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
-import {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useLayoutEffect, useMemo, useRef, useState, useEffect} from "react";
 import {useCreation, useUpdateLayoutEffect} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
-import {selectStackMultiView, unselectStackMultiView} from "../store/store.js";
+import {selectStackMultiView, unselectFollowMultiView, unselectStackMultiView, selectFollowMultiView} from "../store/store.js";
 
 import {Popover} from "antd";
 import {PopoverContent} from "../component/PopoverContent.jsx";
@@ -17,6 +17,7 @@ function CascadeTreemap({data}) {
 
     const [visible, setVisible] = useState(false);
     const [eventContent, setEventContent] = useState(null);
+    const [followContent, setFollowContent] = useState(null);
 
     const treemapLayout = useMemo(() => {
         return {
@@ -95,7 +96,7 @@ function CascadeTreemap({data}) {
                 dispatch(selectStackMultiView(i.data));
                 setVisible(true);
                 setEventContent(i.data);
-                console.log(i.data)
+                // console.log(i.data)
             })
             .on("mouseout", function () {
                 d3.select(this).style("fill", d => color(d.height));
@@ -104,6 +105,36 @@ function CascadeTreemap({data}) {
             });
 
     }, [treemapLayout, treemap]);
+
+    useEffect(() => {
+        let tempStack = reactiveEvent.multiview.hover.stack;
+        if (tempStack === null) {
+            d3.selectAll("rect")
+                .style("fill", d => color(d.height));
+            dispatch(unselectFollowMultiView());
+            setFollowContent(null);
+        } else {
+            d3.selectAll("rect")
+                .filter((d, i) => {
+                    // console.log(tempStack)
+                    // console.log(d)
+                    return (d.data.name === tempStack.name
+                        && d.data.hash === tempStack.hash);
+                })
+                .filter((d, i) => {
+                    console.log(d)
+                    console.log(tempStack)
+                    return true
+                })
+                .style("fill", "red")
+                .filter((d, i) => {
+                    // console.log(d)
+                    dispatch(selectFollowMultiView(d.data))
+                    setFollowContent(d.data);
+                    return true;
+                })
+        }
+    }, [reactiveEvent.multiview]);
 
     useLayoutEffect(() => {
         if (divRef.current) {
@@ -138,7 +169,7 @@ function CascadeTreemap({data}) {
             </svg>
             <div>
                 <Popover
-                    content={<PopoverContent parentPlot='CascadeTreemap' eventContent={eventContent}/>}
+                    content={<PopoverContent parentPlot='CascadeTreemap' eventContent={eventContent} followContent={followContent}/>}
                     open={visible}
                     arrow={false}
                 >

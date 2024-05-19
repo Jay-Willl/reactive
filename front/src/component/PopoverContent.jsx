@@ -1,8 +1,9 @@
 import {useMemo, useCallback} from "react";
-import {Descriptions} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 
-function PopoverContent({parentPlot, eventContent}) {
+import {Descriptions, Row, Col, Space} from "antd";
+
+function PopoverContent({parentPlot, eventContent, followContent}) {
     const BarChartItems = useMemo(() => [
         {
             key: '1',
@@ -62,14 +63,30 @@ function PopoverContent({parentPlot, eventContent}) {
 
     const BarChartContent = useCallback(() => {
         return (
-            <Descriptions
-                title="Detail"
-                layout="vertical"
-                bordered
-                items={setBarChartItems(eventContent)}
-            />
+            <>
+                <Row gutter={[0, 0]}>
+                    <Col span={12}>
+                        <Descriptions
+                            title="Selected"
+                            layout="vertical"
+                            bordered
+                            items={setBarChartItems(eventContent)}
+                            size="small"
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <Descriptions
+                            title="Followed"
+                            layout="vertical"
+                            bordered
+                            items={setBarChartItems(followContent)}
+                            size="small"
+                        />
+                    </Col>
+                </Row>
+            </>
         )
-    }, [eventContent]);
+    }, [eventContent, followContent]);
 
     const CascadeTreemapItems = useMemo(() => [
         {
@@ -117,15 +134,29 @@ function PopoverContent({parentPlot, eventContent}) {
 
     const CascadeTreemapContent = useCallback(() => {
         return (
-            <Descriptions
-                title="Detail"
-                layout="vertical"
-                bordered
-                items={setCascadeTreemapItems(eventContent)}
-            />
-        )
-    }, [eventContent]);
+            <>
+                <Row>
+                    <Col span={12}>
+                        <Descriptions
+                            title="Selected"
+                            layout="vertical"
+                            bordered
+                            items={setCascadeTreemapItems(eventContent)}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <Descriptions
+                            title="Follow"
+                            layout="vertical"
+                            bordered
+                            items={setCascadeTreemapItems(followContent)}
+                        />
+                    </Col>
+                </Row>
+            </>
 
+        )
+    }, [eventContent, followContent]);
 
 
     const reactiveEvent = useSelector(state => state.reactive);
@@ -141,7 +172,7 @@ function PopoverContent({parentPlot, eventContent}) {
     } else if (parentPlot === 'BarChart') {
         return (
             <div>
-                <BarChartContent/>
+                <BarChartContent />
             </div>
         )
     } else if (parentPlot === 'CascadeTreemap') {
