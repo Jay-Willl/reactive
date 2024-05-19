@@ -3,6 +3,7 @@ import {useCallback, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {useCreation, useUpdateLayoutEffect, useMouse} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
 import {reactiveStore, selectStackMultiView, unselectStackMultiView} from "../store/store.js";
+
 import {Popover} from "antd";
 import {PopoverContent} from "../component/PopoverContent.jsx";
 
@@ -15,7 +16,7 @@ function BarChart({data}) {
     const [dimension, setDimension] = useState({width: 0, height: 0});
 
     const [visible, setVisible] = useState(false);
-    const [eventcontent, setEventcontent] = useState(null);
+    const [eventContent, setEventContent] = useState(null);
 
     const mouse = useMouse();
     const windowSize = {
@@ -111,7 +112,7 @@ function BarChart({data}) {
                 d3.select(this).style("fill", "red");
                 dispatch(selectStackMultiView(i));
                 setVisible(true)
-                setEventcontent(i);
+                setEventContent(i);
                 // console.log(reactiveStore.getState().reactive.multiview.hover.stack)
             })
             .on("mouseout", function () {
@@ -157,16 +158,14 @@ function BarChart({data}) {
 
             >
                 <Popover
-                    content={<PopoverContent parentPlot='BarChart' eventcontent={eventcontent}/>}
+                    content={<PopoverContent parentPlot='BarChart' eventContent={eventContent}/>}
                     open={visible}
                     arrow={false}
-                    // getPopupContainer={() => document.body}
                 >
                 </Popover>
             </div>
         </div>
     )
-
 }
 
 export {BarChart};

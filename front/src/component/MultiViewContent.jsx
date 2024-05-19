@@ -15,8 +15,6 @@ function MultiViewCell({pos, displayedPlot, data, layout}) {
     if (pos === 0) {
         return (
             <div
-                id="multiview-cell-1"
-                className="multiview-cell"
                 style={{
                     width: "100%",
                     height: "100%",
@@ -28,8 +26,6 @@ function MultiViewCell({pos, displayedPlot, data, layout}) {
     } else {
         return (
             <div
-                id="multiview-cell-2"
-                className="multiview-cell"
                 style={{
                     width: "100%",
                     height: "100%",
@@ -83,13 +79,15 @@ function MultiViewContent() {
                 height: "100%",
             }}
         >
-            <Col span={12}>
+            <Col span={12} id="multiview-cell-1"
+                 className="multiview-cell">
                 <MultiViewCell
                     pos={0}
                     displayedPlot={reactiveEvent.config.displayedPlot}
                 />
             </Col>
-            <Col span={12}>
+            <Col span={12} id="multiview-cell-2"
+                 className="multiview-cell">
                 <MultiViewCell
                     pos={1}
                     displayedPlot={reactiveEvent.config.displayedPlot}

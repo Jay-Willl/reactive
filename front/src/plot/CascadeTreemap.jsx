@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {selectStackMultiView, unselectStackMultiView} from "../store/store.js";
 
 import {Popover} from "antd";
+import {PopoverContent} from "../component/PopoverContent.jsx";
 
 function CascadeTreemap({data}) {
     const reactiveEvent = useSelector(state => state.reactive);
@@ -13,6 +14,9 @@ function CascadeTreemap({data}) {
     const divRef = useRef(null);
     const svgRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
+
+    const [visible, setVisible] = useState(false);
+    const [eventContent, setEventContent] = useState(null);
 
     const treemapLayout = useMemo(() => {
         return {
@@ -86,13 +90,17 @@ function CascadeTreemap({data}) {
             .attr("height", d => d.y1 - d.y0)
 
         svg.selectAll("rect")
-            .on("mouseover", function (d, i) {
+            .on("mouseenter", function (d, i) {
                 d3.select(this).style("fill", "red");
-                dispatch(selectStackMultiView(i.data))
+                dispatch(selectStackMultiView(i.data));
+                setVisible(true);
+                setEventContent(i.data);
+                console.log(i.data)
             })
             .on("mouseout", function () {
                 d3.select(this).style("fill", d => color(d.height));
-                dispatch(unselectStackMultiView())
+                dispatch(unselectStackMultiView());
+                setVisible(false);
             });
 
     }, [treemapLayout, treemap]);
@@ -128,10 +136,16 @@ function CascadeTreemap({data}) {
                 }}
             >
             </svg>
+            <div>
+                <Popover
+                    content={<PopoverContent parentPlot='CascadeTreemap' eventContent={eventContent}/>}
+                    open={visible}
+                    arrow={false}
+                >
+                </Popover>
+            </div>
         </div>
     )
-
-
 }
 
 export {CascadeTreemap};

@@ -10,6 +10,7 @@ import {BarChart} from "./plot/BarChart.jsx";
 import {CascadeTreemap} from "./plot/CascadeTreemap.jsx";
 
 import {sample} from "./data/sample.js";
+import {MultiViewContent} from "./component/MultiViewContent.jsx";
 
 function App() {
 
