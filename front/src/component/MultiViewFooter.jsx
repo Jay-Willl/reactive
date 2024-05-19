@@ -3,12 +3,17 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {Flex, Button, Select, Row, Col} from "antd";
 
+import {reactiveStore, editDisplayedPlotMultiView} from "../store/store.js";
 
 function MultiViewFooter() {
     const reactiveEvent = useSelector(state => state.reactive);
     const dispatch = useDispatch();
     const divRef = useRef(null);
     const [dimension, setDimension] = useState({width: 0, height: 0});
+
+    const handleDisplayedPlot = (value) => {
+        dispatch(editDisplayedPlotMultiView(value));
+    }
 
     useLayoutEffect(() => {
         if (divRef.current) {
@@ -38,27 +43,19 @@ function MultiViewFooter() {
                 <Col span={8} offset={8}>
                     <Flex gap="small" wrap="wrap">
                         <Select
-                            defaultValue="Icicle"
+                            defaultValue="BarChart"
                             style={{
                                 width: 160,
                             }}
-                            // onChange={handleDisplayedPlot}
+                            onChange={handleDisplayedPlot}
                             options={[
                                 {
-                                    value: 'Icicle',
-                                    label: 'Icicle',
+                                    value: 'BarChart',
+                                    label: 'BarChart',
                                 },
                                 {
-                                    value: 'Cascade Treemap',
-                                    label: 'Cascade Treemap',
-                                },
-                                {
-                                    value: 'Radial',
-                                    label: 'Radial',
-                                },
-                                {
-                                    value: 'disabled',
-                                    label: 'Disabled',
+                                    value: 'CascadeTreemap',
+                                    label: 'CascadeTreemap',
                                 },
                             ]}
                         />

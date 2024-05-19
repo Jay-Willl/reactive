@@ -23,7 +23,7 @@ const rawStore = createSlice({
                 follow: null
             },
             config: {
-                displayedPlot: null
+                displayedPlot: 'BarChart'
             }
         }
     },

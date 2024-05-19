@@ -11,6 +11,8 @@ import {CascadeTreemap} from "./plot/CascadeTreemap.jsx";
 
 import {sample} from "./data/sample.js";
 import {MultiViewContent} from "./component/MultiViewContent.jsx";
+import {listData} from "./data/listData.js";
+import {stackData} from "./data/stackData.js";
 
 function App() {
 
@@ -18,7 +20,8 @@ function App() {
         <Provider store={reactiveStore}>
             {/*<CascadeTreemap data={sample.stackview}/>*/}
             {/*<BarChart data={sample.statsview}/>*/}
-            <MultiView />
+            {/*<MultiView />*/}
+            <OverView listData={listData} stackData={stackData} />
 
             {/*<OverView listData={listData} stackData={stackData} />*/}
             {/*<Router>*/}
