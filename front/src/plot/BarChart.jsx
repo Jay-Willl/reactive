@@ -25,18 +25,6 @@ function BarChart({data}) {
         height: window.innerHeight,
     }
 
-    // const decideDirection = () => {
-    //     if (mouse.clientX <= windowSize.width / 2 && mouse.clientY <= windowSize.height / 2) {
-    //         return "bottomLeft"
-    //     } else if (mouse.clientX <= windowSize.width / 2 && mouse.clientY >= windowSize.height / 2) {
-    //         return "topLeft"
-    //     } else if (mouse.clientX >= windowSize.width / 2 && mouse.clientY <= windowSize.height / 2) {
-    //         return "bottomRight"
-    //     } else if (mouse.clientX >= windowSize.width / 2 && mouse.clientY >= windowSize.height / 2) {
-    //         return "topRight"
-    //     }
-    // }
-
     const expectedLayout = useMemo(() => {
         return {
             rectHeight: 25,
