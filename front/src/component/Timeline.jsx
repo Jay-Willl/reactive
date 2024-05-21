@@ -19,74 +19,125 @@ function Timeline({data}) {
     var canvas;
     var ctx;
 
-    const canvasLayout = {
-        x: 0,
-        y: 0,
-        width: dimension.width,
-        height: dimension.height
-    }
-
-    const upperTimeLayout = {
-        x: dimension.width * 0.1,
-        y: 15,
-        width: dimension.width * 0.8 - 40,
-        height: (dimension.height - 50) / 2,
-        offsetX: 8,
-        offsetY: 8
-    }
-
-    const bottomTimeLayout = {
-        x: dimension.width * 0.1,
-        // y: 15 + upperTimeLayout.height,
-        // height: (dimension.height - 50) / 2,
-
-        y: 15,
-        width: dimension.width * 0.8 - 40,
-        height: (dimension.height - 50)
-    }
-
-    const axisLayout = {
-        x: dimension.width * 0.1,
-        y: 15,
-        width: dimension.width,
-        height: 30,
-        axisWidth: dimension.width * 0.8 - 40
-    }
-
     const pos2scale = useCallback((position) => {
-        let absWidth = upperTimeLayout.width;
-        let absLeft = upperTimeLayout.x;
+        let absWidth = timeLayout.width;
+        let absLeft = timeLayout.x;
         let dis = position.x - absLeft;
         return dis / absWidth;
     }, [dimension]);
 
     const x2scale = useCallback((x) => {
-        let absWidth = upperTimeLayout.width;
-        let absLeft = upperTimeLayout.x;
+        let absWidth = timeLayout.width;
+        let absLeft = timeLayout.x;
         let dis = x - absLeft;
         return dis / absWidth;
     }, [dimension]);
 
     const scale2x = useCallback((scale) => {
-        let absWidth = upperTimeLayout.width;
-        let absLeft = upperTimeLayout.x;
+        let absWidth = timeLayout.width;
+        let absLeft = timeLayout.x;
         return scale * absWidth + absLeft;
     }, [dimension]);
 
-    const decidePosition = useCallback((position) => {
-        if (position.x < upperTimeLayout.x || position.x > upperTimeLayout.x + upperTimeLayout.width ||
-            position.y < upperTimeLayout.y || position.y > bottomTimeLayout.y + upperTimeLayout.height) {
-            return -1;
-        } else if (position.y < upperTimeLayout.y + upperTimeLayout.height) {
-            return 0;
-        } else if (position.y < bottomTimeLayout.y + bottomTimeLayout.height) {
-            if (Math.abs(x2scale(position.x) * 100 - reactiveEvent.range.start) < Math.abs(x2scale(position.x * 100) - reactiveEvent.range.end)) {
-                return 1;
-            } else {
-                return 2;
-            }
-        }
-    }, [dimension, reactiveEvent]);
+    // const decidePosition = useCallback((position) => {
+    //     if (position.x < upperTimeLayout.x || position.x > upperTimeLayout.x + upperTimeLayout.width ||
+    //         position.y < upperTimeLayout.y || position.y > bottomTimeLayout.y + upperTimeLayout.height) {
+    //         return -1;
+    //     } else if (position.y < upperTimeLayout.y + upperTimeLayout.height) {
+    //         return 0;
+    //     } else if (position.y < bottomTimeLayout.y + bottomTimeLayout.height) {
+    //         if (Math.abs(x2scale(position.x) * 100 - reactiveEvent.range.start) < Math.abs(x2scale(position.x * 100) - reactiveEvent.range.end)) {
+    //             return 1;
+    //         } else {
+    //             return 2;
+    //         }
+    //     }
+    // }, [dimension, reactiveEvent]);
+
+    // const upperTimeLayout = {
+    //     x: dimension.width * 0.1,
+    //     y: 15,
+    //     width: dimension.width * 0.8 - 40,
+    //     height: (dimension.height - 50) / 2,
+    //     offsetX: 8,
+    //     offsetY: 8
+    // }
+    //
+    // const bottomTimeLayout = {
+    //     x: dimension.width * 0.1,
+    //     y: 15,
+    //     width: dimension.width * 0.8 - 40,
+    //     height: (dimension.height - 50)
+    // }
+
+    // const handleEvent = useCallback((e) => {
+    //     const currentEvent = reactiveStore.getState();
+    //     const rect = canvas.getBoundingClientRect();
+    //     const position = {
+    //         x: e.clientX,
+    //         y: e.clientY - rect.top
+    //     }
+    //     if (decidePosition(position) === -1) {
+    //         return;
+    //     } else if (decidePosition(position) === 0) {
+    //         let scale = pos2scale(position);
+    //         dispatch(editScale(scale));
+    //     } else if (decidePosition(position)) {
+    //         if (e.button === 0) {
+    //             let scale = pos2scale(position) * 100;
+    //             if (currentEvent.reactive.range.end < scale) {
+    //                 return;
+    //             } else {
+    //                 dispatch(editStart(scale));
+    //             }
+    //         } else if (e.button === 2) {
+    //             let scale = pos2scale(position) * 100;
+    //             dispatch(editEnd(scale));
+    //         }
+    //     }
+    //     redraw(ctx);
+    // }, [dimension]);
+
+
+    const timeLayout = {
+        x: dimension.width * 0.05,
+        y: dimension.height * 0.3,
+        width: dimension.width * 0.9,
+        height: dimension.height * 0.15,
+        offsetX: 8,
+        offsetY: 8,
+    }
+
+    const scaleLayout = {
+        x: dimension.width * 0.05,
+        y: dimension.height * 0.8,
+        width: dimension.width * 0.9,
+        height: dimension.height * 0.15,
+        offsetX: 8,
+        offsetY: 8,
+    }
+
+
+    const timeAxisLayout = {
+        x: dimension.width * 0.05,
+        y: dimension.height * 0.07,
+        width: dimension.width,
+        height: 30,
+        axisWidth: dimension.width * 0.9,
+        position: 'fixed'
+    }
+
+    const scaleAxisLayout = {
+        x: dimension.width * 0.05,
+        y: dimension.height * 0.57,
+        width: dimension.width,
+        height: 30,
+        axisWidth: dimension.width * 0.9,
+        position: 'fixed'
+    }
+
+
+
 
     const draw = useCallback((ctx) => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,21 +145,21 @@ function Timeline({data}) {
         canvas.height = dimension.height;
         ctx.fillStyle = '#000000';
         ctx.fillRect(
-            upperTimeLayout.x + upperTimeLayout.offsetX, upperTimeLayout.y - upperTimeLayout.offsetY,
-            upperTimeLayout.width, upperTimeLayout.height
+            timeLayout.x + timeLayout.offsetX, timeLayout.y - timeLayout.offsetY,
+            timeLayout.width, timeLayout.height
         );
         ctx.fillStyle = '#FFFFFF';
         ctx.fillRect(
-            upperTimeLayout.x, upperTimeLayout.y,
-            upperTimeLayout.width, upperTimeLayout.height
+            timeLayout.x, timeLayout.y,
+            timeLayout.width, timeLayout.height
         );
         ctx.fillRect(
-            bottomTimeLayout.x, bottomTimeLayout.y,
-            bottomTimeLayout.width, bottomTimeLayout.height
+            timeLayout.x, timeLayout.y,
+            timeLayout.width, timeLayout.height
         )
         ctx.strokeRect(
-            upperTimeLayout.x, upperTimeLayout.y,
-            upperTimeLayout.width, bottomTimeLayout.height
+            timeLayout.x, timeLayout.y,
+            timeLayout.width, timeLayout.height
         )
     }, [dimension]);
 
@@ -131,55 +182,21 @@ function Timeline({data}) {
         ctx.fillStyle = '#91BED4';
         ctx.fillRect(
             scale2x(currentState.reactive.overview.range.start / 100),
-            bottomTimeLayout.y,
+            timeLayout.y,
             scale2x(currentState.reactive.overview.range.end / 100) - scale2x(currentState.reactive.overview.range.start / 100),
-            bottomTimeLayout.height
+            timeLayout.height
         )
         // console.log('position ' + scale2x(currentState.reactive.range.start / 100) + ' ' + scale2x(currentState.reactive.range.end / 100));
     }, [dimension]);
 
-    const handleEvent = useCallback((e) => {
-        const currentEvent = reactiveStore.getState();
-        const rect = canvas.getBoundingClientRect();
-        const position = {
-            x: e.clientX,
-            y: e.clientY - rect.top
-        }
-
-        // console.log(position);
-        // console.log(decidePosition(position));
-
-        if (decidePosition(position) === -1) {
-            return;
-        } else if (decidePosition(position) === 0) {
-            let scale = pos2scale(position);
-            dispatch(editScale(scale));
-        } else if (decidePosition(position)) {
-            if (e.button === 0) {
-                let scale = pos2scale(position) * 100;
-                if (currentEvent.reactive.range.end < scale) {
-                    return;
-                } else {
-                    dispatch(editStart(scale));
-                }
-            } else if (e.button === 2) {
-                let scale = pos2scale(position) * 100;
-                dispatch(editEnd(scale));
-            }
-        }
-        redraw(ctx);
-    }, [dimension]);
 
     const addE = useCallback(() => {
-        canvas.removeEventListener('click', handleEvent);
-        canvas.addEventListener('click', handleEvent);
+        // canvas.removeEventListener('click', handleEvent);
+        // canvas.addEventListener('click', handleEvent);
     }, [dimension])
 
     useLayoutEffect(() => {
         if (divRef.current) {
-            const style = window.getComputedStyle(divRef.current);
-            // console.log(divRef.current.clientWidth)
-            // console.log(divRef.current.clientHeight)
             setDimension({
                 width: divRef.current.clientWidth,
                 height: divRef.current.clientHeight
@@ -194,7 +211,6 @@ function Timeline({data}) {
         addE();
 
         const unsubscribe = reactiveStore.subscribe(() => {
-            const currentState = reactiveStore.getState();
             redraw(ctx);
         })
 
@@ -209,35 +225,34 @@ function Timeline({data}) {
         svg.selectAll("*").remove();
 
         svg.append("svg")
-            .attr("width", axisLayout.width)
-            .attr("height", axisLayout.height)
-            .attr("transform", `translate(${axisLayout.x},${axisLayout.y})`);
-
-        var xLog = d3.scaleLog()
-            .domain([1, 100])
-            .range([0, axisLayout.axisWidth]);
+            .attr("width", timeAxisLayout.width)
+            .attr("height", timeAxisLayout.height)
+            .attr("transform", `translate(${timeAxisLayout.x},${timeAxisLayout.y})`);
 
         var xLinear = d3.scaleLinear()
-            .domain([0, 100])
-            .range([0, axisLayout.axisWidth]);
-
-        var xLogAxis = d3.axisTop(xLog)
-            .ticks(10, ",.1s")
-            .tickSize(5);
+            .domain([0, 1])
+            .range([0, timeAxisLayout.axisWidth]);
 
         var xLinearAxis = d3.axisBottom(xLinear)
-            // .ticks(10, ",.1s")
+            .ticks(10, ".0" + "%")
             .tickSize(5);
 
         svg.append("g")
-            .attr("transform", "translate(" + axisLayout.x + "," + (axisLayout.y) + ")")
-            .call(xLogAxis);
-
-        svg.append("g")
-            .attr("transform", "translate(" + axisLayout.x + "," + (axisLayout.y) + ")")
+            .attr("transform", "translate(" + timeAxisLayout.x + "," + (timeAxisLayout.y) + ")")
             .call(xLinearAxis);
-    }, [axisLayout]);
 
+    //     var xLog = d3.scaleLog()
+    //         .domain([1, 100])
+    //         .range([0, scaleAxisLayout.axisWidth]);
+    //
+    //     var xLogAxis = d3.axisTop(xLog)
+    //         .ticks(10, ",.1s")
+    //         .tickSize(5);
+    //
+    //     svg.append("g")
+    //         .attr("transform", "translate(" + scaleAxisLayout.x + "," + (scaleAxisLayout.y) + ")")
+    //         .call(xLogAxis);
+    }, [timeAxisLayout]);
 
     return (
         <div
@@ -245,12 +260,12 @@ function Timeline({data}) {
             ref={divRef}
             style={{
                 width: '100%',
-                height: '100%'
+                height: '100%',
             }}
         >
             <svg
                 ref={axisRef}
-                style={axisLayout}
+                style={timeAxisLayout}
             >
             </svg>
             <canvas

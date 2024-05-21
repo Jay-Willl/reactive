@@ -158,15 +158,78 @@ function PopoverContent({parentPlot, eventContent, followContent}) {
         )
     }, [eventContent, followContent]);
 
+    const IcicleItems = useMemo(() => [
+        {
+            key: '1',
+            label: 'function name',
+            children: null,
+        },
+        {
+            key: '2',
+            label: 'file name',
+            children: null,
+        },
+        {
+            key: '3',
+            label: 'start time',
+            children: null,
+        },
+        {
+            key: '4',
+            label: 'end time',
+            children: null,
+        },
+        {
+            key: '5',
+            label: 'duration',
+            children: null,
+        },
+        {
+            key: '6',
+            label: 'pid',
+            children: null,
+        },
+        {
+            key: '7',
+            label: 'tid',
+            children: null,
+        },
+    ], [eventContent]);
 
-    const reactiveEvent = useSelector(state => state.reactive);
-    const dispatch = useDispatch();
+    const setIcicleItems = useCallback((stack) => {
+        let tempItems = IcicleItems;
+        tempItems[0].children = stack?.name.split(' ')[0];
+        tempItems[1].children = stack?.name.split(' ')[1];
+        tempItems[2].children = stack?.st;
+        tempItems[3].children = stack?.et;
+        tempItems[4].children = stack?.dur;
+        tempItems[5].children = stack?.pid;
+        tempItems[6].children = stack?.tid;
+        return tempItems;
+    }, []);
 
+    const IcicleContent = useCallback(() => {
+        return (
+            <>
+                <Row gutter={[16, 16]}>
+                    <Col span={24}>
+                        <Descriptions
+                            title="Event Detail"
+                            layout="vertical"
+                            bordered
+                            items={setIcicleItems(eventContent)}
+                        />
+                    </Col>
+                </Row>
+            </>
+        )
+    }, [eventContent]);
 
     if (parentPlot === 'Icicle') {
+        // console.log(eventContent)
         return (
             <div>
-
+                <IcicleContent />
             </div>
         )
     } else if (parentPlot === 'BarChart') {

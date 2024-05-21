@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {reactiveStore} from "../store/store.js";
 import {editStart, editEnd, editScale, selectStackOverView, unselectStackOverView} from "../store/store.js";
+import {Popover} from "antd";
+import {PopoverContent} from "../component/PopoverContent.jsx";
 
 /**
  * Bidirectional translation:
@@ -31,6 +33,9 @@ function Icicle({data, layout}) {
             }
         }
     );
+
+    const [visible, setVisible] = useState(false);
+    const [eventContent, setEventContent] = useState(null);
 
     const colorScheme = useCreation(() => {
         return {
@@ -122,9 +127,10 @@ function Icicle({data, layout}) {
 
     const draw = useCallback(() => {
         const svg = d3.select(svgRef.current);
-        svgRef.current.setAttribute("viewBox", `0 0 ${icicleLayout.width} ${icicleLayout.height}`)
+        const maxLength = d3.max(data.stackevents, d => (d.et - d.st) * 10)
+        svgRef.current.setAttribute("viewBox", `0 0 ${maxLength} ${icicleLayout.height}`)
         svgRef.current.setAttribute("preserveAspectRatio", "none")
-        metadata.current.currentBox = [0, 0, icicleLayout.width, icicleLayout.height];
+        metadata.current.currentBox = [0, 0, maxLength, icicleLayout.height];
 
         svg.selectAll("*").remove();
 
@@ -269,9 +275,13 @@ function Icicle({data, layout}) {
                 // console.log(i);
                 // console.log(d);
                 dispatch(selectStackOverView(i))
+                setEventContent(i);
+                setVisible(true);
             })
             .on("mouseout", function () {
                 dispatch(unselectStackOverView())
+                setEventContent(null);
+                setVisible(false);
             });
     }
 
@@ -309,6 +319,19 @@ function Icicle({data, layout}) {
                 }}
             >
             </svg>
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: 5,
+                    left: 30
+                }}
+            >
+                <Popover
+                    content={<PopoverContent parentPlot='Icicle' eventContent={eventContent}/>}
+                    open={visible}
+                    arrow={false}
+                />
+            </div>
         </div>
     )
 }

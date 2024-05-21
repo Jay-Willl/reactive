@@ -4,6 +4,7 @@ import {Col, Row, Space} from "antd";
 import {useGetState} from "ahooks";
 
 import "../less/main.less";
+import {OverViewHeader} from "../component/OverViewHeader.jsx";
 import {OverViewSider} from "../component/OverViewSider.jsx";
 import {OverViewContent} from "../component/OverViewContent.jsx";
 import {Timeline} from '../component/Timeline.jsx';
@@ -31,12 +32,12 @@ function OverView({stackData, listData}) {
     return (
             <Row gutter={[0, 0]}>
                 <Col className="overview-header" id="overview-header" span={24}>
-                    <Timeline/>
+                    <OverViewHeader />
                 </Col>
-                <Col className="overview-sider" id="overview-sider" span={5}>
-                    <OverViewSider/>
-                </Col>
-                <Col className="overview-content" id="overview-content" span={19}>
+                {/*<Col className="overview-sider" id="overview-sider" span={5}>*/}
+                {/*    <OverViewSider/>*/}
+                {/*</Col>*/}
+                <Col className="overview-content" id="overview-content" span={24}>
                     <OverViewContent stackData={stackData} listData={listData}/>
                 </Col>
                 <Col className="overview-footer" id="overview-footer" span={24}>

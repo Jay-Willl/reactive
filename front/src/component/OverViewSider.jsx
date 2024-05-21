@@ -21,24 +21,19 @@ function OverViewSider() {
         offsetY: 5
     }
 
-    const siderBackgroundLayout = {
-        left: siderLayout.x + siderLayout.offsetX,
-        top: siderLayout.y - siderLayout.offsetY,
-        width: siderLayout.width + 4,
-        height: siderLayout.height
-    }
-
-    const siderComponentLayout = {
-        left: siderLayout.x - siderLayout.offsetX,
-        top: siderLayout.y + siderLayout.offsetY,
-        width: siderLayout.width,
-        height: siderLayout.height
-    }
-
-    // console.log(siderLayout);
-    // console.log(siderBackgroundLayout);
-    // console.log(siderComponentLayout);
-    // console.log(reactiveEvent.hover.stack)
+    // const siderBackgroundLayout = {
+    //     left: siderLayout.x + siderLayout.offsetX,
+    //     top: siderLayout.y - siderLayout.offsetY,
+    //     width: siderLayout.width + 4,
+    //     height: siderLayout.height
+    // }
+    //
+    // const siderComponentLayout = {
+    //     left: siderLayout.x - siderLayout.offsetX,
+    //     top: siderLayout.y + siderLayout.offsetY,
+    //     width: siderLayout.width,
+    //     height: siderLayout.height
+    // }
 
     const sliceStr = useCallback((str) => {
         if (str === undefined) {
