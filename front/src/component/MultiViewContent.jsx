@@ -61,7 +61,6 @@ function MultiViewContent() {
     }, [reactiveEvent.config]);
 
     const Temp = useCallback(() => {
-        console.log(reactiveEvent.config.displayedPlot)
         return (
             <Row
                 gutter={[0, 0]}

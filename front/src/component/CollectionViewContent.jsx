@@ -11,21 +11,35 @@ import {ScatterPlot} from "../plot/ScatterPlot.jsx";
 import {sample} from "../data/sample.js";
 
 function CollectionViewContent() {
-    const reactiveEvent = useSelector(state => state.reactive.multiview);
+    const reactiveEvent = useSelector(state => state.reactive.collectionview);
     const dispatch = useDispatch();
     const divRef = useRef(null);
 
     const CollectionViewCell = useCallback(({displayedPlot, data, layout}) => {
         if (displayedPlot === 'Radial') {
             return (
-                <div>
-
+                <div
+                    id="collectionview-micro"
+                    className="collectionview-micro"
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <Radial data={sample.stackview} />
                 </div>
             )
         } else if (displayedPlot === 'ScatterPlot') {
             return (
-                <div>
-
+                <div
+                    id="collectionview-micro"
+                    className="collectionview-micro"
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <ScatterPlot data={sample.statsview} />
                 </div>
             )
         }
@@ -33,8 +47,18 @@ function CollectionViewContent() {
 
     const Temp = useCallback(() => {
         return (
-            <Row>
-
+            <Row
+                gutter={[0, 0]}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                }}
+            >
+                <Col span={24} id="collectionview-cell" className="collectionview-cell">
+                    <CollectionViewCell
+                        displayedPlot={reactiveEvent.config.displayedPlot}
+                    />
+                </Col>
             </Row>
         )
     }, [reactiveEvent.config]);

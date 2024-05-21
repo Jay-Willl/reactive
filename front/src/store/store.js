@@ -27,7 +27,12 @@ const rawStore = createSlice({
             }
         },
         collectionview: {
-
+            hover: {
+                stack: null,
+            },
+            config: {
+                displayedPlot: 'ScatterPlot'
+            }
         }
     },
     reducers: {
@@ -70,7 +75,21 @@ const rawStore = createSlice({
 
         editDisplayedPlotMultiView(state, action) {
             state.multiview.config.displayedPlot = action.payload;
+        },
+
+
+        selectStackCollectionView(state, action) {
+            state.collectionview.hover.stack = action.payload;
+        },
+        unselectStackCollectionView(state) {
+            state.collectionview.hover.stack = null;
+        },
+
+        editDisplayedPlotCollectionView(state, action) {
+            state.collectionview.config.displayedPlot = action.payload;
         }
+
+
     }
 });
 
@@ -87,7 +106,11 @@ const {
     unselectStackMultiView,
     selectFollowMultiView,
     unselectFollowMultiView,
-    editDisplayedPlotMultiView
+    editDisplayedPlotMultiView,
+
+    selectStackCollectionView,
+    unselectStackCollectionView,
+    editDisplayedPlotCollectionView
 } = rawStore.actions;
 
 const reactiveReducer = rawStore.reducer;
@@ -110,5 +133,8 @@ export {
     selectFollowMultiView,
     unselectFollowMultiView,
     editDisplayedPlotMultiView,
+    selectStackCollectionView,
+    unselectStackCollectionView,
+    editDisplayedPlotCollectionView
 };
 export {reactiveStore, reactiveReducer};
