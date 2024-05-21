@@ -17,11 +17,10 @@ function MultiViewContent() {
     const divRef = useRef(null);
 
     const MultiViewCell = useCallback(({pos, displayedPlot, data, layout}) => {
-        console.log(reactiveEvent.config);
         if (pos === -1) {
             return (
                 <div
-                    id="multiview-cell-1"
+                    id="multiview-micro-1"
                     className="multiview-micro"
                     style={{
                         width: "100%",
@@ -35,7 +34,7 @@ function MultiViewContent() {
         if (displayedPlot === 'CascadeTreemap') {
             return (
                 <div
-                    id="multiview-cell-1"
+                    id="multiview-micro-1"
                     className="multiview-micro"
                     style={{
                         width: "100%",
@@ -48,7 +47,7 @@ function MultiViewContent() {
         } else if (displayedPlot === 'BarChart') {
             return (
                 <div
-                    id="multiview-cell-2"
+                    id="multiview-micro-2"
                     className="multiview-micro"
                     style={{
                         width: "100%",

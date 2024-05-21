@@ -86,7 +86,7 @@ function BarChart({data}) {
             .attr("dy", "0.35em")
             .attr("dx", -4)
             .text((d) => format(d.percentage / 100))
-            .call((text) => text.filter(d => xAxis(d.percentage) - xAxis(0) < 20) // short bars
+            .call((text) => text.filter(d => xAxis(d.percentage) - xAxis(0) < 10) // short bars
                 .attr("dx", +4)
                 .attr("fill", "black")
                 .attr("text-anchor", "start"));
