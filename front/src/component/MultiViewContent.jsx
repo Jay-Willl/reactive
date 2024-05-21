@@ -18,32 +18,44 @@ function MultiViewContent() {
 
     const MultiViewCell = useCallback(({pos, displayedPlot, data, layout}) => {
         console.log(reactiveEvent.config);
-        if (displayedPlot === 'CascadeTreemap') {
-            console.log(1)
+        if (pos === -1) {
             return (
                 <div
                     id="multiview-cell-1"
-                    className="multiview-cell"
+                    className="multiview-micro"
                     style={{
                         width: "100%",
                         height: "100%",
                     }}
                 >
-                    <CascadeTreemap data={sample.stackview} />
+
                 </div>
             )
-        } else if (displayedPlot === 'BarChart'){
-            console.log(2)
+        }
+        if (displayedPlot === 'CascadeTreemap') {
+            return (
+                <div
+                    id="multiview-cell-1"
+                    className="multiview-micro"
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                    }}
+                >
+                    <CascadeTreemap data={sample.stackview}/>
+                </div>
+            )
+        } else if (displayedPlot === 'BarChart') {
             return (
                 <div
                     id="multiview-cell-2"
-                    className="multiview-cell"
+                    className="multiview-micro"
                     style={{
                         width: "100%",
                         height: "100%",
                     }}
                 >
-                    <BarChart data={sample.statsview} />
+                    <BarChart data={sample.statsview}/>
                 </div>
             )
         }
@@ -59,6 +71,12 @@ function MultiViewContent() {
                     height: "100%",
                 }}
             >
+                <Col span={24} id="multiview-cell-0"
+                     className="multiview-cell">
+                    <MultiViewCell
+                        pos={-1}
+                    />
+                </Col>
                 <Col span={12} id="multiview-cell-1"
                      className="multiview-cell">
                     <MultiViewCell
@@ -78,7 +96,7 @@ function MultiViewContent() {
     }, [reactiveEvent.config]);
 
     return (
-        <Temp />
+        <Temp/>
     )
 }
 

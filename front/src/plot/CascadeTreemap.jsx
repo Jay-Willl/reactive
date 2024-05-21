@@ -167,7 +167,13 @@ function CascadeTreemap({data}) {
                 }}
             >
             </svg>
-            <div>
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: 5,
+                    left: 30
+                }}
+            >
                 <Popover
                     content={<PopoverContent parentPlot='CascadeTreemap' eventContent={eventContent} followContent={followContent}/>}
                     open={visible}

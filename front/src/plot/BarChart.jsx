@@ -176,14 +176,17 @@ function BarChart({data}) {
             >
             </svg>
             <div
-
+                style={{
+                    position: 'fixed',
+                    bottom: 5,
+                    left: 30
+                }}
             >
                 <Popover
                     content={<PopoverContent parentPlot='BarChart' eventContent={eventContent} followContent={followContent}/>}
                     open={visible}
                     arrow={false}
-                >
-                </Popover>
+                />
             </div>
         </div>
     )

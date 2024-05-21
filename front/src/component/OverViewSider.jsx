@@ -70,10 +70,6 @@ function OverViewSider() {
                 height: '100%'
             }}
         >
-            {/*<p>{reactiveEvent.hover.stack?.pid}</p>*/}
-            {/*<p>{reactiveEvent.hover.stack?.tid}</p>*/}
-            {/*<p>{reactiveEvent.hover.stack?.st}</p>*/}
-            {/*<p>{reactiveEvent.hover.stack?.value}</p>*/}
             <Row gutter={[8, 8]}>
                 <Col span={24}>
                     <Card

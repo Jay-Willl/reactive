@@ -20,10 +20,10 @@ function App() {
         <Provider store={reactiveStore}>
             {/*<CascadeTreemap data={sample.stackview}/>*/}
             {/*<BarChart data={sample.statsview}/>*/}
-            {/*<MultiView />*/}
-            <OverView listData={listData} stackData={stackData} />
-
+            <MultiView />
             {/*<OverView listData={listData} stackData={stackData} />*/}
+
+
             {/*<Router>*/}
             {/*    <div>*/}
             {/*        <Routes>*/}
