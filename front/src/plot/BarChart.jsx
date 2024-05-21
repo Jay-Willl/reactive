@@ -179,7 +179,7 @@ function BarChart({data}) {
                 style={{
                     position: 'fixed',
                     bottom: 5,
-                    left: 30
+                    left: 10
                 }}
             >
                 <Popover

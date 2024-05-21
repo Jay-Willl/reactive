@@ -25,6 +25,9 @@ const rawStore = createSlice({
             config: {
                 displayedPlot: 'BarChart'
             }
+        },
+        collectionview: {
+
         }
     },
     reducers: {

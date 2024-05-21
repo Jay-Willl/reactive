@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import {OverView} from "./view/OverView.jsx";
 import {UploadView} from "./view/UploadView.jsx";
 import {MultiView} from "./view/MultiView.jsx";
+import {CollectionView} from "./view/CollectionView.jsx";
 
 import {reactiveStore} from "./store/store.js";
 import {BarChart} from "./plot/BarChart.jsx";
@@ -21,7 +22,8 @@ function App() {
             {/*<CascadeTreemap data={sample.stackview}/>*/}
             {/*<BarChart data={sample.statsview}/>*/}
             {/*<MultiView />*/}
-            <OverView listData={listData} stackData={stackData} />
+            <CollectionView />
+            {/*<OverView listData={listData} stackData={stackData} />*/}
 
 
             {/*<Router>*/}

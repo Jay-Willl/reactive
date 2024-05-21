@@ -202,7 +202,7 @@ function PopoverContent({parentPlot, eventContent, followContent}) {
         tempItems[1].children = stack?.name.split(' ')[1];
         tempItems[2].children = stack?.st;
         tempItems[3].children = stack?.et;
-        tempItems[4].children = stack?.dur;
+        tempItems[4].children = stack?.value;
         tempItems[5].children = stack?.pid;
         tempItems[6].children = stack?.tid;
         return tempItems;
@@ -242,6 +242,18 @@ function PopoverContent({parentPlot, eventContent, followContent}) {
         return (
             <div>
                 <CascadeTreemapContent />
+            </div>
+        )
+    } else if (parentPlot === 'ScatterPlot') {
+        return (
+            <div>
+
+            </div>
+        )
+    } else if (parentPlot === 'Radial') {
+        return (
+            <div>
+
             </div>
         )
     }

@@ -171,8 +171,8 @@ function Icicle({data, layout}) {
         //     .attr("x", (d, i) => handleRectX(d.st))
         //     .attr("y", (d, i) => handleRectY(d.level))
         //     .attr("fill", "black");
-
-
+        //
+        //
         // data.stackevents.forEach((rect) => {
         //     svg.append("rect")
         //         .attr("x", handleRectX(rect.st))
@@ -219,7 +219,6 @@ function Icicle({data, layout}) {
             parts[index] = val;
             svgRef.current.setAttribute("viewBox", parts.join(' '));
         }
-        // console.log(getViewBoxVal());
         metadata.current.currentBox = getViewBoxVal();
         dispatchRangeChange();
     }, [svgRef]);
@@ -229,7 +228,7 @@ function Icicle({data, layout}) {
         dispatch(editStart(rangeArr[0] * 100));
         dispatch(editEnd(rangeArr[1] * 100));
         dispatch(editScale((metadata.current.currentBox[2]) / metadata.current.totalBox.width));
-        console.log(metadata.current.currentBox);
+        // console.log(metadata.current.currentBox);
     }, [svgRef]);
 
     const handleOutsideModify = useCallback(() => {
@@ -259,7 +258,6 @@ function Icicle({data, layout}) {
 
     const handleWheel = (event) => {
         let scaleIncrement = 0.1;
-        // console.log(event);
         event.preventDefault();
         if (event.deltaY < 0) {
             setViewBoxVal(event.deltaY * scaleIncrement, 2, "inc");
@@ -272,8 +270,6 @@ function Icicle({data, layout}) {
         // console.log(event);
         d3.selectAll("rect")
             .on("mouseover", function (d, i) {
-                // console.log(i);
-                // console.log(d);
                 dispatch(selectStackOverView(i))
                 setEventContent(i);
                 setVisible(true);
