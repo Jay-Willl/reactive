@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from "react-redux";
 
 import {Icicle} from "../plot/Icicle.jsx";
 
-function OverViewContent({stackData, listData}) {
+function OverViewContent({listData}) {
     const reactiveEvent = useSelector(state => state.reactive.overview);
     const dispatch = useDispatch();
 

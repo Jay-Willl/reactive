@@ -45,6 +45,27 @@ function UploadView() {
         },
     };
 
+    const props_collection = {
+        name: 'file',
+        action: 'http://localhost:5174/upload/collection',
+        headers: {
+            authorization: 'authorization-text',
+        },
+        onChange(i) {
+            if (i.file.status !== 'uploading') {
+                console.log(i.file, i.fileList);
+            }
+            if (i.file.status === 'done') {
+                message.success(`${i.file.name} file uploaded successfully`);
+                localStorage.setItem('result', JSON.stringify(i.file.response))
+                console.log(localStorage.getItem('result'))
+                // navigate('/')
+            } else if (i.file.status === 'error') {
+                message.error(`${i.file.name} file upload failed.`);
+            }
+        },
+    };
+
     const props_multiple = {
         name: 'file',
         action: 'http://localhost:5174/upload/multiple',
@@ -148,6 +169,35 @@ function UploadView() {
                         }}
                     >
                         <Upload {...props_odd}>
+                            <Button icon={<UploadOutlined/>}>Click to Upload</Button>
+                        </Upload>
+                    </div>
+
+                    <br/>
+                    <Divider/>
+
+                </div>
+
+                <div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <h1>Explore More Plots</h1>
+                    </div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Upload {...props_collection}>
                             <Button icon={<UploadOutlined/>}>Click to Upload</Button>
                         </Upload>
                     </div>

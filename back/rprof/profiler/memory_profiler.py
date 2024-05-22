@@ -64,4 +64,4 @@ class MemoryProfiler():
         self.profile = self.profile_module
 
     def profile_module(self):
-
+        pass

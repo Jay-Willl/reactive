@@ -8,7 +8,7 @@ import '../less/main.less';
 import {CascadeTreemap} from "../plot/CascadeTreemap.jsx";
 import {BarChart} from "../plot/BarChart.jsx";
 
-import {sample} from "../data/sample.js";
+import {sample} from "../data/sample_numpy.js";
 
 
 function MultiViewContent() {

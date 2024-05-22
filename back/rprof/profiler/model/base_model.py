@@ -9,6 +9,7 @@ class Event:
         self.et = et
         self.dur = dur
         self.name = name
+        self.level = None
         self.str = f'EVENT {self.name}: <{self.dur}><{self.st} -> {self.et}>'
         self.hash = hashlib.sha256(self.str.encode()).hexdigest()
 
@@ -23,7 +24,8 @@ class Event:
             "et": self.et,
             "value": self.dur,
             "name": self.name,
-            "hash": self.hash
+            "hash": self.hash,
+            "level": self.level,
         }
 
 

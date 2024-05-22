@@ -127,7 +127,7 @@ function Icicle({data, layout}) {
 
     const draw = useCallback(() => {
         const svg = d3.select(svgRef.current);
-        const maxLength = d3.max(data.stackevents, d => (d.et - d.st) * 10)
+        const maxLength = d3.max(data, d => (d.et - d.st) * 10)
         svgRef.current.setAttribute("viewBox", `0 0 ${maxLength} ${icicleLayout.height}`)
         svgRef.current.setAttribute("preserveAspectRatio", "none")
         metadata.current.currentBox = [0, 0, maxLength, icicleLayout.height];
@@ -140,11 +140,14 @@ function Icicle({data, layout}) {
         //     .attr("transform", `translate(${icicleLayout.x},${icicleLayout.y})`)
 
         svg.selectAll("rect")
-            .data(data.stackevents)
+            .data(data)
             .enter()
             .append("rect")
             .attr("x", (d, i) => handleRectX(d.st))
-            .attr("y", (d, i) => handleRectY(d.level))
+            .attr("y", (d, i) => {
+                // console.log(handleRectY(d.level))
+                return handleRectY(d.level)
+            })
             .attr("width", (d, i) => {
                 if (handleRectX(d.st) + handleRectWidth(d.st, d.et) > metadata.current.totalBox.width) {
                     metadata.current.totalBox.width = handleRectX(d.st) + handleRectWidth(d.st, d.et);
@@ -164,16 +167,16 @@ function Icicle({data, layout}) {
         dispatchRangeChange();
 
         // svg.selectAll("text")
-        //     .data(data.stackevents)
+        //     .data(data)
         //     .enter()
         //     .append("text")
         //     .text(d => d.name)
-        //     .attr("x", (d, i) => handleRectX(d.st))
+        //     .attr("x", (d, i) => hDandleRectX(d.st))
         //     .attr("y", (d, i) => handleRectY(d.level))
         //     .attr("fill", "black");
         //
         //
-        // data.stackevents.forEach((rect) => {
+        // data.forEach((rect) => {
         //     svg.append("rect")
         //         .attr("x", handleRectX(rect.st))
         //         .attr("y", handleRectY(rect.level))

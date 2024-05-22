@@ -78,6 +78,8 @@ class EventProfiler:
                 max_heap=max_heap,
                 stack_view=stack_view
             )
+            list_view = EventProfiler.refresh_list_view(stack_view=stack_view)
+            print(list_view)
             result = EventProfiler.warp_info(
                 raw_events=raw_events,
                 raw_files=raw_files,
@@ -187,6 +189,23 @@ class EventProfiler:
             else:
                 continue
         return target_event.to_dict()
+
+    @staticmethod
+    def refresh_list_view(stack_view):
+        temp = list()
+        for stack in stack_view:
+            temp_event = Event(
+                pid=stack.pid,
+                tid=stack.tid,
+                st=stack.st,
+                et=stack.et,
+                dur=stack.dur,
+                name=stack.name
+            )
+            temp_event.hash = stack.hash
+            temp_event.level = stack.level
+            temp.append(temp_event)
+        return temp
 
     @staticmethod
     def warp_info(raw_events, raw_files, raw_functions, list_view, stack_view, target_event):

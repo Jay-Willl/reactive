@@ -3,15 +3,17 @@ import {useSelector, useDispatch} from "react-redux";
 import {Col, Row, Space} from "antd";
 import {useGetState} from "ahooks";
 
-import "../less/main.less";
 import {OverViewHeader} from "../component/OverViewHeader.jsx";
-import {OverViewSider} from "../component/OverViewSider.jsx";
 import {OverViewContent} from "../component/OverViewContent.jsx";
-import {Timeline} from '../component/Timeline.jsx';
 import {OverViewFooter} from "../component/OverViewFooter.jsx";
 
+import {sample} from "../data/sample_numpy.js";
 
-function OverView({stackData, listData}) {
+import "../less/main.less";
+
+
+
+function OverView({data}) {
     const [result, setResult, getResult] = useGetState({});
 
     useEffect(() => {
@@ -38,7 +40,8 @@ function OverView({stackData, listData}) {
                 {/*    <OverViewSider/>*/}
                 {/*</Col>*/}
                 <Col className="overview-content" id="overview-content" span={24}>
-                    <OverViewContent stackData={stackData} listData={listData}/>
+                    {/*<OverViewContent listData={listData.stackevents}/>*/}
+                    <OverViewContent listData={sample.listview}/>
                 </Col>
                 <Col className="overview-footer" id="overview-footer" span={24}>
                     <OverViewFooter/>

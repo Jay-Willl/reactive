@@ -1,47 +1,65 @@
-import numpy as np
+# Define the size of the chessboard
+N = 6
 
-# 创建数组
-a = np.array([1, 2, 3, 4, 5])
-b = np.array([10, 20, 30, 40, 50])
+# Initialize the chessboard
+board = [[0] * N for _ in range(N)]
 
-print("Array a:", a)
-print("Array b:", b)
+# Function to print the solution
+def print_solution(board):
+    for row in board:
+        print(' '.join('Q' if x else '.' for x in row))
 
-# 数组的算术运算
-c = a + b
-d = a * b
-e = a ** 2
+# Function to check if a queen can be placed on board[row][col]
+def is_safe(board, row, col):
+    # Check the column on the left
+    for i in range(col):
+        if board[row][i] == 1:
+            return False
 
-print("\na + b:", c)
-print("a * b:", d)
-print("a ** 2:", e)
+    # Check upper diagonal on the left
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
 
-# 计算数组的统计量
-mean_a = np.mean(a)
-sum_b = np.sum(b)
-max_a = np.max(a)
-min_b = np.min(b)
+    # Check lower diagonal on the left
+    for i, j in zip(range(row, N, 1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
 
-print("\nMean of a:", mean_a)
-print("Sum of b:", sum_b)
-print("Max of a:", max_a)
-print("Min of b:", min_b)
+    # The position is safe for placing a queen
+    return True
 
-# 矩阵操作
-matrix_1 = np.array([[1, 2], [3, 4]])
-matrix_2 = np.array([[5, 6], [7, 8]])
+# Recursive utility function to solve N Queen problem
+def solve_nq_util(board, col):
+    # Base case: If all queens are placed, return true
+    if col >= N:
+        return True
 
-# 矩阵乘法
-matrix_product = np.dot(matrix_1, matrix_2)
-# 矩阵转置
-matrix_transpose = np.transpose(matrix_1)
+    # Consider this column and try placing this queen in all rows one by one
+    for i in range(N):
+        # Check if the queen can be placed on board[i][col]
+        if is_safe(board, i, col):
+            # Place this queen in board[i][col]
+            board[i][col] = 1
 
-print("\nMatrix 1:\n", matrix_1)
-print("Matrix 2:\n", matrix_2)
-print("Matrix product:\n", matrix_product)
-print("Matrix transpose:\n", matrix_transpose)
+            # Recur to place the rest of the queens
+            if solve_nq_util(board, col + 1) == True:
+                return True
 
-# 使用布尔索引进行数组操作
-a_filtered = a[a > 2]
+            # If placing queen in board[i][col] doesn't lead to a solution, then backtrack
+            board[i][col] = 0
 
-print("\nFiltered array a (elements > 2):", a_filtered)
+    # If the queen cannot be placed in any row in this column, return false
+    return False
+
+# Function to solve the N Queen problem using the backtracking approach
+def solve_nq():
+    if not solve_nq_util(board, 0):
+        print("Solution does not exist")
+        return False
+
+    print_solution(board)
+    return True
+
+# Execute the algorithm
+solve_nq()

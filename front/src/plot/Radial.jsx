@@ -72,22 +72,22 @@ function Radial({data}) {
             .attr("fill", d => d.children ? "#555" : "#999")
             .attr("r", 2.5);
 
-        // svg.append("g")
-        //     .attr("stroke-linejoin", "round")
-        //     .attr("stroke-width", 3)
-        //     .selectAll()
-        //     .data(root.descendants())
-        //     .join("text")
-        //     .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0) rotate(${d.x >= Math.PI ? 180 : 0})`)
-        //     .attr("dy", "0.31em")
-        //     .attr("x", d => (d.x < Math.PI) === !d.children ? 6 : -6)
-        //     .attr("text-anchor", d => (d.x < Math.PI) === !d.children ? "start" : "end")
-        //     .attr("paint-order", "stroke")
-        //     .attr("stroke", "white")
-        //     .attr("fill", "currentColor")
-        //     .text(d => {
-        //         return d.data.name.split(/\s/, 1)
-        //     });
+        svg.append("g")
+            .attr("stroke-linejoin", "round")
+            .attr("stroke-width", 3)
+            .selectAll()
+            .data(root.descendants())
+            .join("text")
+            .attr("transform", d => `rotate(${d.x * 180 / Math.PI - 90}) translate(${d.y},0) rotate(${d.x >= Math.PI ? 180 : 0})`)
+            .attr("dy", "0.31em")
+            .attr("x", d => (d.x < Math.PI) === !d.children ? 6 : -6)
+            .attr("text-anchor", d => (d.x < Math.PI) === !d.children ? "start" : "end")
+            .attr("paint-order", "stroke")
+            .attr("stroke", "white")
+            .attr("fill", "currentColor")
+            .text(d => {
+                return d.data.name.split(/\s/, 1)
+            });
 
         // svg.selectAll("circle")
         //     .on("mouseover", function (d, i) {

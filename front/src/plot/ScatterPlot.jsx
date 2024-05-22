@@ -34,13 +34,24 @@ function ScatterPlot({data}) {
         }
     }, [dimension]);
 
+    const color = useCallback((stack) => {
+        let value = stack.total_calls / stack.primitive_calls;
+        console.log(stack.primitive_calls)
+        console.log(stack.total_calls)
+        console.log(value)
+        const index = Math.floor(value * 20);
+        const interpolate = d3.scaleSequential([50, 0], d3.interpolateMagma)
+        // 返回对应的颜色
+        return interpolate(index);
+    }, []);
+
     const draw = useCallback(() => {
         let xAxis = d3.scaleLog()
             .domain([d3.min(data, d => d.time_per_call), d3.max(data, d => d.time_per_call)])
             .range([scatterPlotLayout.x, scatterPlotLayout.width])
 
         let yAxis = d3.scaleLinear()
-            .domain([0, d3.max(data, d => Math.ceil(d.total_calls))])
+            .domain([0, d3.max(data, d => Math.ceil(d.total_calls + d.primitive_calls))])
             .range([scatterPlotLayout.height -scatterPlotLayout.innerMargin,
                 scatterPlotLayout.y + scatterPlotLayout.innerMargin])
 
@@ -67,9 +78,9 @@ function ScatterPlot({data}) {
                 // console.log(xAxis(d.total_time))
                 return xAxis(d.time_per_call)
             })
-            .attr("cy", d => yAxis(d.total_calls))
+            .attr("cy", d => yAxis(d.total_calls + d.primitive_calls))
             .attr("r", d => radius(d.total_time))
-            .attr("fill", "steelblue")
+            .attr("fill", d => color(d))
 
 
 

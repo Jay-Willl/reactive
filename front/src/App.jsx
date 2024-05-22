@@ -10,10 +10,8 @@ import {reactiveStore} from "./store/store.js";
 import {BarChart} from "./plot/BarChart.jsx";
 import {CascadeTreemap} from "./plot/CascadeTreemap.jsx";
 
-import {sample} from "./data/sample.js";
+import {sample} from "./data/sample_numpy.js";
 import {MultiViewContent} from "./component/MultiViewContent.jsx";
-import {listData} from "./data/listData.js";
-import {stackData} from "./data/stackData.js";
 
 function App() {
 
@@ -21,20 +19,20 @@ function App() {
         <Provider store={reactiveStore}>
             {/*<CascadeTreemap data={sample.stackview}/>*/}
             {/*<BarChart data={sample.statsview}/>*/}
-            {/*<MultiView />*/}
-            <CollectionView />
-            {/*<OverView listData={listData} stackData={stackData} />*/}
+            <MultiView />
+            {/*<CollectionView />*/}
+            {/*<OverView />*/}
 
 
-            {/*<Router>*/}
-            {/*    <div>*/}
-            {/*        <Routes>*/}
-            {/*            <Route path="/upload" element={<UploadView/>}/>*/}
-            {/*            /!*<Route path="/upload" element={<TestUploadView/>}/>*!/*/}
-            {/*            <Route path="/" element={<OverView listData={listData} stackData={stackData}/>}/>*/}
-            {/*        </Routes>*/}
-            {/*    </div>*/}
-            {/*</Router>*/}
+            <Router>
+                <div>
+                    <Routes>
+                        <Route path="/upload" element={<UploadView/>}/>
+                        {/*<Route path="/upload" element={<TestUploadView/>}/>*/}
+                        <Route path="/" element={<OverView />}/>
+                    </Routes>
+                </div>
+            </Router>
         </Provider>
     )
 }
