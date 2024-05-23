@@ -79,7 +79,7 @@ class EventProfiler:
                 stack_view=stack_view
             )
             list_view = EventProfiler.refresh_list_view(stack_view=stack_view)
-            print(list_view)
+            # print(list_view)
             result = EventProfiler.warp_info(
                 raw_events=raw_events,
                 raw_files=raw_files,

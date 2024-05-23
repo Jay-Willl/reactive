@@ -11,6 +11,6 @@ if __name__ == '__main__':
     result = json.dumps(test_frame.run(), indent=4)
     with open("/Users/blank/repo_pro/project-whitezone/reactive/back/sample.json", 'wb') as f:
         f.write(result.encode('utf-8'))
-    print(result)
+    # print(result)
 
 

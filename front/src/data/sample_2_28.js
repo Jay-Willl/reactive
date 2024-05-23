@@ -1,4 +1,4 @@
-{
+const sample_2_28 = {
     "statsview": [
         {
             "name": "<built-in method builtins.exec> (~:0)",
@@ -7713,3 +7713,4 @@
         }
     ]
 }
+export {sample_2_28}

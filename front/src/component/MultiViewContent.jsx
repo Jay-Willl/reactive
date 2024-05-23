@@ -8,7 +8,8 @@ import '../less/main.less';
 import {CascadeTreemap} from "../plot/CascadeTreemap.jsx";
 import {BarChart} from "../plot/BarChart.jsx";
 
-import {sample} from "../data/sample_numpy.js";
+import {sample_2_28} from "../data/sample_2_28.js";
+import {sample_2_32} from "../data/sample_2_32.js";
 
 
 function MultiViewContent() {
@@ -45,18 +46,33 @@ function MultiViewContent() {
                 </div>
             )
         } else if (displayedPlot === 'BarChart') {
-            return (
-                <div
-                    id="multiview-micro-2"
-                    className="multiview-micro"
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                    }}
-                >
-                    <BarChart data={sample.statsview}/>
-                </div>
-            )
+            if (pos === 0) {
+                return (
+                    <div
+                        id="multiview-micro-2"
+                        className="multiview-micro"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
+                        <BarChart data={sample_2_28.statsview}/>
+                    </div>
+                )
+            } else {
+                return (
+                    <div
+                        id="multiview-micro-2"
+                        className="multiview-micro"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
+                        <BarChart data={sample_2_32.statsview}/>
+                    </div>
+                )
+            }
         }
     }, [reactiveEvent.config]);
 
@@ -64,17 +80,13 @@ function MultiViewContent() {
         return (
             <Row
                 gutter={[0, 0]}
-                style={{
-                    width: "100%",
-                    height: "100%",
-                }}
             >
-                <Col span={24} id="multiview-cell-0"
-                     className="multiview-cell">
-                    <MultiViewCell
-                        pos={-1}
-                    />
-                </Col>
+                {/*<Col span={24} id="multiview-cell-0"*/}
+                {/*     className="multiview-cell">*/}
+                {/*    <MultiViewCell*/}
+                {/*        pos={-1}*/}
+                {/*    />*/}
+                {/*</Col>*/}
                 <Col span={12} id="multiview-cell-1"
                      className="multiview-cell">
                     <MultiViewCell

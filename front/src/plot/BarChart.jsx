@@ -2,7 +2,13 @@ import * as d3 from 'd3';
 import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {useCreation, useUpdateLayoutEffect, useMouse} from "ahooks";
 import {useSelector, useDispatch} from "react-redux";
-import {reactiveStore, selectStackMultiView, unselectStackMultiView, selectFollowMultiView, unselectFollowMultiView} from "../store/store.js";
+import {
+    reactiveStore,
+    selectStackMultiView,
+    unselectStackMultiView,
+    selectFollowMultiView,
+    unselectFollowMultiView
+} from "../store/store.js";
 
 import {Popover} from "antd";
 import {PopoverContent} from "../component/PopoverContent.jsx";
@@ -43,6 +49,13 @@ function BarChart({data}) {
         }
     }, [dimension, expectedLayout]);
 
+    const color = useCallback((value) => {
+        const index = Math.floor(value / 5);
+        const interpolate = d3.scaleSequential([0, 20], d3.interpolateMagma)
+        // 返回对应的颜色
+        return interpolate(index);
+    }, []);
+
     const draw = useCallback(() => {
         let xAxis = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.percentage)])
@@ -62,7 +75,6 @@ function BarChart({data}) {
         svg.selectAll("*").remove();
 
         svg.append("g")
-            .attr("fill", "steelblue")
             .selectAll()
             .data(data)
             .join("rect")
@@ -73,7 +85,9 @@ function BarChart({data}) {
             .attr("width", (d) => {
                 return xAxis(d.percentage) - xAxis(0)
             })
-            .attr("height", expectedLayout.rectHeight - expectedLayout.rectInterval);
+            .attr("height", expectedLayout.rectHeight - expectedLayout.rectInterval)
+            .attr("fill", d => color(d.percentage))
+
 
         svg.append("g")
             .attr("fill", "white")
@@ -98,51 +112,71 @@ function BarChart({data}) {
 
         svg.selectAll("rect")
             .on("mouseenter", function (d, i) {
-                d3.select(this).style("fill", "red");
-                dispatch(selectStackMultiView(i));
-                setVisible(true)
-                setEventContent(i);
-                // console.log(reactiveStore.getState().reactive.multiview.hover.stack)
+                d3.select(this).style("fill", "orange");
+
+                var target = d3.selectAll("rect")
+                    .filter(d => {
+                        // console.log(d)
+                        // console.log(tempStack)
+                        // console.log(d.funcname === tempStack.funcname && d.filename === tempStack.filename)
+                        return d !== i && d.funcname === i.funcname && d.filename === i.filename;
+                    })
+                    .node()
+
+                d3.select(target).style("fill", "orange")
+                    .filter((d) => {
+                        // console.log(d)
+                        dispatch(selectFollowMultiView(d), selectStackMultiView(i));
+                        setEventContent(i);
+                        setFollowContent(d);
+                        return true;
+                    })
+
+                setVisible(true);
             })
             .on("mouseout", function () {
-                d3.select(this).style("fill", "steelblue");
+                draw()
                 dispatch(unselectStackMultiView());
-                setVisible(false)
+                dispatch(unselectFollowMultiView());
+                setFollowContent(null);
                 setEventContent(null);
+                setVisible(false)
             });
 
     }, [dimension]);
 
-    useEffect(() => {
-        // console.log(reactiveEvent);
-        let tempStack = reactiveEvent.multiview.hover.stack;
-        if (tempStack === null) {
-            d3.selectAll("rect")
-                .style("fill", "steelblue")
-            dispatch(unselectFollowMultiView());
-            setFollowContent(null);
-        } else {
-            d3.selectAll("rect")
-                .filter(d => {
-                    return d.funcname === tempStack.funcname;
-                })
-                .filter(d => {
-                    // console.log(d)
-                    return true;
-                })
-                // .call(() => {
-                //     console.log(this)
-                // })
-                .style("fill", "orange")
-                .filter((d) => {
-                    console.log(d)
-                    dispatch(selectFollowMultiView(d));
-                    setFollowContent(d);
-                    return true;
-                })
-        }
-
-    }, [reactiveEvent.multiview]);
+    // useEffect(() => {
+    //     // console.log(reactiveEvent);
+    //     let tempStack = reactiveEvent.multiview.hover.stack;
+    //     // console.log(tempStack)
+    //     if (tempStack === null) {
+    //         d3.selectAll("rect")
+    //             .attr("fill", d => color(d.percentage))
+    //     } else {
+    //         var target = d3.selectAll("rect")
+    //             .filter(d => {
+    //                 // console.log(d)
+    //                 // console.log(tempStack)
+    //                 // console.log(d.funcname === tempStack.funcname && d.filename === tempStack.filename)
+    //                 return d !== tempStack && d.funcname === tempStack.funcname && d.filename === tempStack.filename;
+    //             })
+    //             .node()
+    //         console.log(target)
+    //             // .filter(d => {
+    //             //     console.log(d)
+    //             //     return true;
+    //             // })
+    //         d3.select(target).style("fill", "orange")
+    //             .filter((d) => {
+    //                 // console.log(d)
+    //                 dispatch(selectFollowMultiView(d));
+    //                 setFollowContent(d);
+    //                 setVisible(true)
+    //                 return true;
+    //             })
+    //     }
+    //
+    // }, [reactiveEvent.multiview]);
 
     useLayoutEffect(() => {
         if (divRef.current) {
@@ -183,7 +217,8 @@ function BarChart({data}) {
                 }}
             >
                 <Popover
-                    content={<PopoverContent parentPlot='BarChart' eventContent={eventContent} followContent={followContent}/>}
+                    content={<PopoverContent parentPlot='BarChart' eventContent={eventContent}
+                                             followContent={followContent}/>}
                     open={visible}
                     arrow={false}
                 />

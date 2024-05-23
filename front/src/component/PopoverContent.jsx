@@ -62,6 +62,8 @@ function PopoverContent({parentPlot, eventContent, followContent}) {
     }, []);
 
     const BarChartContent = useCallback(() => {
+        // console.log(eventContent)
+        // console.log(followContent)
         return (
             <>
                 <Row gutter={[16, 16]}>
@@ -233,6 +235,7 @@ function PopoverContent({parentPlot, eventContent, followContent}) {
             </div>
         )
     } else if (parentPlot === 'BarChart') {
+
         return (
             <div>
                 <BarChartContent />
